@@ -14,5 +14,17 @@ const getCars = async (req, res) => {
     })
   }
 }
+const getCarById = async (req, res) => {
+  try {
+    const car = await Car.findById(req.params.id)
+    res.status(200).json(car)
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'This cause does not exist',
+      error: err.message,
+    })
+  }
+}
 
-export { getCars }
+export { getCars, getCarById }

@@ -37,6 +37,11 @@ const carSchema = new Schema(
       required: true,
     },
     images: [{ type: String, required: true }],
+    isReserved: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
   },
   { timestamps: true }
 )

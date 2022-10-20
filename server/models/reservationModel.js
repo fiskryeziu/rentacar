@@ -14,24 +14,16 @@ const reservationSchema = new Schema({
       required: true,
       ref: 'Car',
     },
+    name: { type: String, required: true },
+    image: { type: String, required: true },
+    brand: { type: String, required: true },
   },
   fromDate: {
     type: Date,
-    validate: function (input) {
-      return typeof new Date(input) === 'date' && new Date(input) >= new Date()
-    },
     required: true,
-    message: (input) =>
-      `${input} must be greater than or equal to the current date!`,
   },
   toDate: {
     type: Date,
-    validate: function (input) {
-      let date = new Date() // Now
-      date.setDate(date.getDate() + 30) // Set now + 30 days as the new date
-      return typeof new Date(input) === 'date' && new Date(input) <= date
-    },
-    message: () => `Maximum of rent it's only 1 month`,
     required: true,
   },
   isApproved: {
@@ -39,10 +31,9 @@ const reservationSchema = new Schema({
     required: true,
     default: false,
   },
-  isReserved: {
-    type: Boolean,
+  totalCost: {
+    type: Number,
     required: true,
-    default: true,
   },
 })
 

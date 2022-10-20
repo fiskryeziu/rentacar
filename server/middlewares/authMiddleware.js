@@ -8,7 +8,9 @@ const protect = async (req, res, next) => {
       throw new Error('Authentication failed!')
     }
     const verified = jwt.verify(token, process.env.JWT_SECRET)
+
     req.user = await User.findById(verified.id).select('-password')
+
     next()
   } catch (err) {
     res.status(400).send('Invalid token !')

@@ -5,6 +5,7 @@ import connectDb from './config/connectDB.js'
 import { notFound, errorHandler } from './middlewares/errorMiddleware.js'
 import carRoute from './routes/carRoute.js'
 import userRoute from './routes/userRoute.js'
+import reservationRoute from './routes/reservationRoute.js'
 
 config()
 connectDb()
@@ -18,6 +19,7 @@ app.use(json())
 //routes
 app.use('/user', userRoute)
 app.use('/cars', carRoute)
+app.use('/reservation', reservationRoute)
 
 app.use(notFound)
 app.use(errorHandler)

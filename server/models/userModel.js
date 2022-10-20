@@ -9,12 +9,12 @@ const userSchema = new Schema(
       required: true,
     },
     email: {
-      type: Number,
+      type: String,
       required: true,
       unique: true,
     },
     password: {
-      type: Number,
+      type: String,
       required: true,
     },
     isAdmin: {

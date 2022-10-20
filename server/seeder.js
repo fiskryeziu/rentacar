@@ -5,7 +5,7 @@ import cars from './data/cars.js'
 import User from './models/userModel.js'
 import Car from './models/carModel.js'
 import Reservation from './models/reservationModel.js'
-import connectDB from './config/db.js'
+import connectDB from './config/connectDB.js'
 
 dotenv.config()
 
@@ -13,7 +13,7 @@ connectDB()
 
 const importData = async () => {
   try {
-    await Order.deleteMany()
+    await User.deleteMany()
     await Car.deleteMany()
     await Reservation.deleteMany()
 
@@ -25,7 +25,7 @@ const importData = async () => {
       return { ...car, user: adminUser }
     })
 
-    await Car.insertMany(sampleProducts)
+    await Car.insertMany(sampleData)
 
     console.log('Data imported')
     process.exit()

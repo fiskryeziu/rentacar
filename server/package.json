@@ -6,8 +6,8 @@
   "main": "server.js",
   "scripts": {
     "server": "nodemon server",
-    "data:import": "node backend/seeder",
-    "data:destroy": "node backend/seeder -d"
+    "data:import": "node seeder",
+    "data:destroy": "node seeder -d"
   },
   "author": "fiskryeziu",
   "license": "ISC",

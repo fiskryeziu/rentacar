@@ -1,8 +1,9 @@
 import express, { json } from 'express'
 import cors from 'cors'
 import { config } from 'dotenv'
-import connectDb from './db/connectDB.js'
-import User from './models/userModel.js'
+import connectDb from './config/connectDB.js'
+import { notFound, errorHandler } from './middlewares/errorMiddleware.js'
+import carRoute from './routes/carRoute.js'
 
 config()
 connectDb()
@@ -12,6 +13,12 @@ const port = process.env.PORT || 5000
 
 app.use(cors())
 app.use(json())
+
+//routes
+app.use('/cars', carRoute)
+
+app.use(notFound)
+app.use(errorHandler)
 
 app.listen(port, () => {
   console.log(`Server is running on port: ${port}`)

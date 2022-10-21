@@ -30,7 +30,7 @@ const userSchema = new Schema(
 // }
 
 userSchema.methods.comparePasswords = async function (data) {
-  return bcrypt.compare(data, this.password)
+  return await bcrypt.compare(data, this.password)
 }
 
 userSchema.pre('save', async function save(next) {
@@ -41,7 +41,7 @@ userSchema.pre('save', async function save(next) {
   }
   try {
     const salt = await bcrypt.genSalt(10)
-    this.passowrd = bcrypt.hash(this.password, salt)
+    this.password = await bcrypt.hash(this.password, salt)
     return next()
   } catch (error) {
     return next(err)
@@ -50,7 +50,7 @@ userSchema.pre('save', async function save(next) {
 
 const User = mongoose.model('User', userSchema)
 
-const user = new User({ name: 'Fisnik' })
+// const user = new User({ name: 'Fisnik' })
 
 // const result = user.showName()
 // console.log(result)

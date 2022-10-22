@@ -7,12 +7,15 @@
   "scripts": {
     "server": "nodemon server",
     "data:import": "node seeder",
-    "data:destroy": "node seeder -d"
+    "data:destroy": "node seeder -d",
+    "client": "npm start --prefix ../client",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "author": "fiskryeziu",
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "concurrently": "^7.5.0",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",

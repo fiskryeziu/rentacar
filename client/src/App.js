@@ -6,11 +6,9 @@ function App() {
   return (
     <BrowserRouter>
       <NavBar />
-      <main className="container mx-auto">
-        <Routes>
-          <Route path="/" element={<Home />} />
-        </Routes>
-      </main>
+      <Routes>
+        <Route path="/" element={<Home />} />
+      </Routes>
     </BrowserRouter>
   )
 }

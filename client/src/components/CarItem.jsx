@@ -1,7 +1,11 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 const CarItem = ({ car }) => (
-  <div className="card card-compact w-96 bg-base-100 shadow-xl">
+  <Link
+    to={`/cars/${car.id}`}
+    className="card card-compact w-96 bg-base-100 shadow-xl"
+  >
     <figure>
       <img
         src={car.images[0]}
@@ -16,7 +20,7 @@ const CarItem = ({ car }) => (
         <button className="btn btn-primary">Reserve Now</button>
       </div>
     </div>
-  </div>
+  </Link>
 )
 
 export default CarItem

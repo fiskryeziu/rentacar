@@ -1,5 +1,6 @@
 const cars = [
   {
+    id: 1,
     name: 'Mercedes e220d',
     brand: 'Mercedes',
     transmission: 'Automatic',
@@ -16,6 +17,7 @@ const cars = [
     ],
   },
   {
+    id: 2,
     name: 'BMW 330i sport',
     brand: 'BMW',
     transmission: 'Automatic',
@@ -32,6 +34,7 @@ const cars = [
     ],
   },
   {
+    id: 3,
     name: 'VolksWagen Comfortline 1.0 TSI MT',
     brand: 'VolksWagen',
     transmission: 'Manual',
@@ -48,6 +51,7 @@ const cars = [
     ],
   },
   {
+    id: 4,
     name: 'Audi A7 3.0T',
     brand: 'Audi',
     transmission: 'Automatic',
@@ -64,6 +68,7 @@ const cars = [
     ],
   },
   {
+    id: 5,
     name: 'Mercedes-Benz CLS 350',
     brand: 'Mercedes',
     transmission: 'Automatic',
@@ -80,6 +85,7 @@ const cars = [
     ],
   },
   {
+    id: 6,
     name: 'Porsche 911 Turbo S',
     brand: 'Porsche',
     transmission: 'Automatic',

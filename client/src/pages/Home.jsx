@@ -6,12 +6,12 @@ import Service from '../components/Service'
 
 const Home = () => {
   return (
-    <div className="flex flex-col">
+    <>
       <Banner />
       <CarLists />
       <Service />
       <Footer />
-    </div>
+    </>
   )
 }
 

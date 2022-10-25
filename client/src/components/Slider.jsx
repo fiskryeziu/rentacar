@@ -34,6 +34,7 @@ const Slider = ({ images }) => {
           spaceBetween: 0,
         },
       }}
+      // navigation={true}
       modules={[Pagination]}
       className="w-full h-auto"
     >

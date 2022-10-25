@@ -5,10 +5,10 @@ const ContactForm = () => {
   return (
     <div className="w-full flex flex-col md:flex-row py-10 md:gap-2">
       <form className="form-control md:w-1/2 max-w-full mx-2 md:pl-20">
-        <label htmlFor="email">Name</label>
+        <label htmlFor="name">Name</label>
         <input
           type="text"
-          placeholder="Enter email"
+          placeholder="Enter name"
           className="input input-bordered  w-full mb-6"
         />
         <label htmlFor="password">Email</label>
@@ -23,7 +23,7 @@ const ContactForm = () => {
         ></textarea>
         <button className="btn mt-6">Send</button>
       </form>
-      <div className="flex flex-col  items-center md:w-1/2 gap-y-14 pl-10 pt-10">
+      <div className="flex flex-col items-center md:w-1/2 gap-y-14 md:pl-10 pt-10">
         <div className="flex items-center gap-2 justify-start">
           <FaLocationArrow /> <p>Sami Frasheri Straße</p>
         </div>

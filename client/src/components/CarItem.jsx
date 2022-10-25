@@ -10,14 +10,16 @@ const CarItem = ({ car }) => (
       <img
         src={car.images[0]}
         alt="Shoes"
-        className="w-full h-56 object-cover"
+        className="w-full md:h-56 object-cover"
       />
     </figure>
     <div className="card-body">
       <h2 className="card-title">{car.brand}</h2>
       <p>{car.name}</p>
       <div className="card-actions justify-end">
-        <button className="btn btn-primary">Reserve Now</button>
+        <button className="btn btn-sm md:btn-md btn-primary">
+          Reserve Now
+        </button>
       </div>
     </div>
   </Link>

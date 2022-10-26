@@ -1,6 +1,8 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Dashboard from './components/Dashboard'
 import NavBar from './components/NavBar'
+import UserProfile from './components/UserProfile'
+import UserReservations from './components/UserReservations'
 import { AuthProvider } from './context/AuthContext'
 import About from './pages/About'
 import CarDetails from './pages/CarDetails'
@@ -26,7 +28,10 @@ function App() {
             <Route path="/contact" element={<Contact />} />
             <Route path="/sign-in" element={<Login />} />
             <Route path="/sign-up" element={<Register />} />
-            <Route path="/my-account" element={<MyAccount />} />
+            <Route path="my-account" element={<MyAccount />}>
+              <Route path="profile" element={<UserProfile />} />
+              <Route path="reservations" element={<UserReservations />} />
+            </Route>
             <Route
               path="/admin/dashboard"
               element={

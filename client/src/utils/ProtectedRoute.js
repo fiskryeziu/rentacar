@@ -1,18 +1,15 @@
 import { useContext } from 'react'
-import { Navigate, useLocation } from 'react-router-dom'
+import { Navigate, Outlet, useLocation } from 'react-router-dom'
 import AuthContext from '../context/AuthContext'
 
-const ProtectedRoute = ({ children }) => {
+const ProtectedRoute = () => {
   const { userDetails } = useContext(AuthContext)
-  const location = useLocation()
 
-  if (!userDetails) {
-    return <Navigate to="/" replace state={{ from: location }} />
-  } else if (userDetails && !userDetails.isAdmin) {
-    return <Navigate to="/" replace state={{ from: location }} />
-  }
-
-  return children
+  return userDetails && userDetails.isAdmin ? (
+    <Outlet />
+  ) : (
+    <Navigate to="/sign-in" />
+  )
 }
 
 export default ProtectedRoute

@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import Dashboard from './components/Dashboard'
+import Dashboard from './pages/Dashboard'
 import NavBar from './components/NavBar'
 import UserProfile from './components/UserProfile'
 import UserReservations from './components/UserReservations'
@@ -13,6 +13,8 @@ import Login from './pages/Login'
 import MyAccount from './pages/MyAccount'
 import Register from './pages/Register'
 import ProtectedRoute from './utils/ProtectedRoute'
+import Reservations from './components/Reservations'
+import RedirectRoutes from './utils/RedirectRoutes'
 
 function App() {
   return (
@@ -21,25 +23,27 @@ function App() {
         <NavBar />
         <main className="flex flex-col">
           <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/cars" element={<Cars />} />
-            <Route path="/cars/:id" element={<CarDetails />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/sign-in" element={<Login />} />
-            <Route path="/sign-up" element={<Register />} />
-            <Route path="my-account" element={<MyAccount />}>
-              <Route path="profile" element={<UserProfile />} />
-              <Route path="reservations" element={<UserReservations />} />
+            <Route element={<RedirectRoutes />}>
+              <Route path="/" element={<Home />} />
+              <Route path="/cars" element={<Cars />} />
+              <Route path="/cars/:id" element={<CarDetails />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/sign-in" element={<Login />} />
+              <Route path="/sign-up" element={<Register />} />
+              <Route path="my-account" element={<MyAccount />}>
+                <Route path="profile" element={<UserProfile />} />
+                <Route path="reservations" element={<UserReservations />} />
+              </Route>
             </Route>
-            <Route
-              path="/admin/dashboard"
-              element={
-                <ProtectedRoute>
-                  <Dashboard />
-                </ProtectedRoute>
-              }
-            />
+            <Route element={<ProtectedRoute />}>
+              <Route path="/admin/dashboard" element={<Dashboard />} exact />
+              <Route
+                path="/admin/reservations"
+                element={<Reservations />}
+                exact
+              />
+            </Route>
           </Routes>
         </main>
       </AuthProvider>

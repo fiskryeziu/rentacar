@@ -8,7 +8,7 @@ export const AuthProvider = ({ children }) => {
     name: 'Fisnik',
     isAdmin: true,
   }
-  const [userDetails] = useState(null)
+  const [userDetails] = useState(data)
 
   return (
     <AuthContext.Provider value={{ userDetails }}>

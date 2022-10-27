@@ -13,8 +13,9 @@ import Login from './pages/Login'
 import MyAccount from './pages/MyAccount'
 import Register from './pages/Register'
 import ProtectedRoute from './utils/ProtectedRoute'
-import Reservations from './components/Reservations'
+import Reservations from './components/admin/Reservations'
 import RedirectRoutes from './utils/RedirectRoutes'
+import NoMatch from './pages/NoMatch'
 
 function App() {
   return (
@@ -44,6 +45,7 @@ function App() {
                 exact
               />
             </Route>
+            <Route path="*" element={<NoMatch />} />
           </Routes>
         </main>
       </AuthProvider>

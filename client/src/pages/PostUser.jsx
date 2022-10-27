@@ -1,6 +1,6 @@
 import React from 'react'
 
-const UserProfile = () => {
+const CreateUser = () => {
   return (
     <form className="form-control w-[300px] mx-auto mb-20">
       <label htmlFor="name">Name</label>
@@ -38,4 +38,4 @@ const UserProfile = () => {
   )
 }
 
-export default UserProfile
+export default CreateUser

@@ -8,7 +8,7 @@ const RedirectRoutes = () => {
   const { userDetails } = useContext(AuthContext)
 
   return userDetails && userDetails.isAdmin ? (
-    <Navigate to="/admin/dashboard" />
+    <Navigate to="admin" />
   ) : (
     <Outlet />
   )

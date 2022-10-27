@@ -13,9 +13,16 @@ import Login from './pages/Login'
 import MyAccount from './pages/MyAccount'
 import Register from './pages/Register'
 import ProtectedRoute from './utils/ProtectedRoute'
-import Reservations from './components/admin/Reservations'
+import Reservations from './pages/Reservations'
 import RedirectRoutes from './utils/RedirectRoutes'
 import NoMatch from './pages/NoMatch'
+import AdminHome from './pages/AdminHome'
+import AdminCarLists from './pages/AdminCarLists'
+import UsersList from './pages/UsersList'
+import EditUser from './pages/EditUser'
+import CreateUser from './pages/PostUser'
+import EditCars from './pages/EditCars'
+import CreateCars from './pages/CreateCars'
 
 function App() {
   return (
@@ -38,12 +45,16 @@ function App() {
               </Route>
             </Route>
             <Route element={<ProtectedRoute />}>
-              <Route path="/admin/dashboard" element={<Dashboard />} exact />
-              <Route
-                path="/admin/reservations"
-                element={<Reservations />}
-                exact
-              />
+              <Route path="admin" element={<AdminHome />}>
+                <Route path="dashboard" element={<Dashboard />} />
+                <Route path="reservations" element={<Reservations />} />
+                <Route path="users" element={<UsersList />} />
+                <Route path="users/:id" element={<EditUser />} />
+                <Route path="users/create" element={<CreateUser />} />
+                <Route path="cars" element={<AdminCarLists />} />
+                <Route path="cars/:id" element={<EditCars />} />
+                <Route path="cars/create" element={<CreateCars />} />
+              </Route>
             </Route>
             <Route path="*" element={<NoMatch />} />
           </Routes>

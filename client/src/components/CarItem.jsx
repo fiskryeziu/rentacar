@@ -7,7 +7,11 @@ const CarItem = ({ car }) => (
     className="card card-compact w-96 bg-base-100 shadow-xl"
   >
     <figure>
-      <img src={car.images[0]} alt="Shoes" className="md:h-56" />
+      <img
+        src={car.images[0]}
+        alt="Shoes"
+        className="w-full md:h-56 object-cover"
+      />
     </figure>
     <div className="card-body">
       <h2 className="card-title">{car.brand}</h2>

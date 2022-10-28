@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
-import { loginUser } from '../features/user/userSlice'
+import Alert from '../components/Alert'
+import { loginUser, reset } from '../features/user/userSlice'
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -13,7 +14,7 @@ const Login = () => {
   const dispatch = useDispatch()
 
   const userDetails = useSelector((state) => state.userDetails)
-  const { userInfo } = userDetails
+  const { userInfo, error } = userDetails
 
   const navigate = useNavigate()
 
@@ -21,7 +22,8 @@ const Login = () => {
     if (userInfo) {
       navigate('/')
     }
-  }, [navigate, userInfo])
+    dispatch(reset())
+  }, [navigate, userInfo, dispatch])
 
   const onChange = (e) => {
     setFormData((prev) => ({
@@ -36,6 +38,7 @@ const Login = () => {
   }
   return (
     <div className="relative flex justify-center flex-col items-center pt-12 mx-2">
+      {error && <Alert variant="alert-error" message={error} />}
       <h1 className="text-center text-2xl">Login</h1>
       <form className="form-control w-full max-w-md" onSubmit={submitHandler}>
         <label htmlFor="email">Email</label>

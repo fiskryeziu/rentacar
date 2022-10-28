@@ -1,7 +1,5 @@
-import { useContext } from 'react'
 import { useSelector } from 'react-redux'
-import { Navigate, Outlet, useLocation } from 'react-router-dom'
-import AuthContext from '../context/AuthContext'
+import { Navigate, Outlet } from 'react-router-dom'
 
 const ProtectedRoute = () => {
   const userDetails = useSelector((state) => state.userDetails)

@@ -13,7 +13,7 @@ const Login = () => {
   const dispatch = useDispatch()
 
   const userDetails = useSelector((state) => state.userDetails)
-  const { userInfo, error } = userDetails
+  const { userInfo } = userDetails
 
   const navigate = useNavigate()
 

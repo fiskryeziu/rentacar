@@ -1,7 +1,6 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
 import HamburgerMenu from './HamburgerMenu'
-import AuthContext from '../context/AuthContext'
 import { useSelector } from 'react-redux'
 
 const NavBar = () => {

@@ -1,12 +1,10 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { Link, Outlet, useNavigate } from 'react-router-dom'
 import Hero from '../components/Hero'
-import AuthContext from '../context/AuthContext'
 import { FaBookmark, FaSignInAlt, FaUserAlt } from 'react-icons/fa'
 import Footer from '../components/Footer'
 import { useDispatch, useSelector } from 'react-redux'
 import { logout } from '../features/user/userSlice'
-import Spinner from '../components/Spinner'
 
 const url =
   'https://images.pexels.com/photos/8134647/pexels-photo-8134647.jpeg?cs=srgb&dl=pexels-supreet-8134647.jpg&fm=jpg'

@@ -1,7 +1,5 @@
-import { useContext } from 'react'
 import { useSelector } from 'react-redux'
 import { Navigate, Outlet } from 'react-router-dom'
-import AuthContext from '../context/AuthContext'
 
 const RedirectRoutes = () => {
   //only when logged in as Admin

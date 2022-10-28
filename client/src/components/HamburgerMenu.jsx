@@ -1,7 +1,6 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
-import AuthContext from '../context/AuthContext'
 
 const HamburgerMenu = () => {
   const [toggle, setToggle] = useState(false)

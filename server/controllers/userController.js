@@ -3,6 +3,7 @@ import generateToken from '../utils/generateToken.js'
 
 const loginUser = async (req, res) => {
   const { email, password } = req.body
+  console.log(email, password)
 
   const user = await User.findOne({ email })
   if (user && (await user.comparePasswords(password))) {

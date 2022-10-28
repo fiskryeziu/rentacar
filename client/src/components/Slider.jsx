@@ -38,15 +38,16 @@ const Slider = ({ images }) => {
       modules={[Pagination]}
       className="w-full h-auto"
     >
-      {images.map((image) => (
-        <SwiperSlide key={image} className="flex justify-center items-start">
-          <img
-            className="w-full h-full object-cover block"
-            src={`${image}`}
-            alt="img"
-          ></img>
-        </SwiperSlide>
-      ))}
+      {images &&
+        images.map((image) => (
+          <SwiperSlide key={image} className="flex justify-center items-start">
+            <img
+              className="w-full h-full object-cover block"
+              src={`${image}`}
+              alt="img"
+            ></img>
+          </SwiperSlide>
+        ))}
     </Swiper>
   )
 }

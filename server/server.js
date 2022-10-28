@@ -17,9 +17,9 @@ app.use(cors())
 app.use(json())
 
 //routes
-app.use('/user', userRoute)
-app.use('/cars', carRoute)
-app.use('/reservation', reservationRoute)
+app.use('/api/user', userRoute)
+app.use('/api/cars', carRoute)
+app.use('/api/reservation', reservationRoute)
 
 app.use(notFound)
 app.use(errorHandler)

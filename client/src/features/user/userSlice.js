@@ -1,14 +1,98 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import API from '../../api/api'
+
+// Get user from localStorage
+const user = JSON.parse(localStorage.getItem('userInfo'))
 
 const initialState = {
-  userDetails: null,
+  loading: false,
+  userInfo: user ? user : null,
+  error: '',
 }
+
+export const loginUser = createAsyncThunk(
+  'user/loginUser',
+  async (userData, { rejectWithValue }) => {
+    try {
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+      const { data } = await API.post('api/user/login', userData, config)
+      if (data) {
+        localStorage.setItem('userInfo', JSON.stringify(data))
+      }
+      return data
+    } catch (error) {
+      if (!error.response) {
+        throw error
+      }
+      return rejectWithValue(error.response.data)
+    }
+  }
+)
+
+export const registerUser = createAsyncThunk(
+  'user/registerUser',
+  async (userData, { rejectWithValue }) => {
+    try {
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+      const { data } = await API.post('api/user/register', userData, config)
+      if (data) {
+        localStorage.setItem('userInfo', JSON.stringify(data))
+      }
+      return data
+    } catch (error) {
+      if (!error.response) {
+        throw error
+      }
+      return rejectWithValue(error.response.data)
+    }
+  }
+)
+
+export const logout = createAsyncThunk('auth/logout', async () => {
+  await localStorage.removeItem('userInfo')
+})
 
 const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {},
-  extraReducers(builder) {},
+  extraReducers(builder) {
+    builder
+      .addCase(registerUser.pending, (state, action) => {
+        state.loading = true
+      })
+      .addCase(registerUser.fulfilled, (state, action) => {
+        state.loading = false
+        state.userInfo = action.payload
+      })
+      .addCase(registerUser.rejected, (state, action) => {
+        state.loading = false
+        state.error = action.payload.message
+      })
+      .addCase(loginUser.pending, (state, action) => {
+        state.loading = true
+      })
+      .addCase(loginUser.fulfilled, (state, action) => {
+        state.loading = false
+        state.userInfo = action.payload
+      })
+      .addCase(loginUser.rejected, (state, action) => {
+        state.loading = false
+        state.error = action.payload.message
+      })
+      .addCase(logout.fulfilled, (state) => {
+        state.userInfo = null
+      })
+  },
 })
 
+// export const { userLogOut } = userSlice.actions
 export default userSlice.reducer

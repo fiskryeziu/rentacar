@@ -1,10 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import AuthContext from '../context/AuthContext'
 
 const HamburgerMenu = () => {
   const [toggle, setToggle] = useState(false)
-  const { userDetails } = useContext(AuthContext)
+  const userDetails = useSelector((state) => state.userDetails)
+  const { userInfo } = userDetails
 
   useEffect(() => {
     toggle
@@ -56,7 +58,7 @@ const HamburgerMenu = () => {
         <Link to="/contact" onClick={toggleHandler}>
           Contact
         </Link>
-        {userDetails && !userDetails.isAdmin ? (
+        {userInfo && !userInfo.isAdmin ? (
           <Link
             to="/my-account"
             className="btn btn-md btn-outline btn-secondary"

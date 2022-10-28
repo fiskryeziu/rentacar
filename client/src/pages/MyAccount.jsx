@@ -4,22 +4,31 @@ import Hero from '../components/Hero'
 import AuthContext from '../context/AuthContext'
 import { FaBookmark, FaSignInAlt, FaUserAlt } from 'react-icons/fa'
 import Footer from '../components/Footer'
+import { useDispatch, useSelector } from 'react-redux'
+import { logout } from '../features/user/userSlice'
+import Spinner from '../components/Spinner'
 
 const url =
   'https://images.pexels.com/photos/8134647/pexels-photo-8134647.jpeg?cs=srgb&dl=pexels-supreet-8134647.jpg&fm=jpg'
 const MyAccount = () => {
-  const { userDetails } = useContext(AuthContext)
+  const userDetails = useSelector((state) => state.userDetails)
+  const { userInfo } = userDetails
+
+  const dispatch = useDispatch()
   const navigate = useNavigate()
 
   useEffect(() => {
-    if (!userDetails) {
+    if (!userInfo) {
       navigate('/sign-in')
     }
-  }, [navigate, userDetails])
+  }, [navigate, userInfo])
+
   return (
     <>
       <Hero img={url} pageName="My Account" />
-      <h1 className="text-center text-3xl font-thin mt-10">Welcome Fisnik</h1>
+      <h1 className="text-center text-3xl font-thin mt-10">
+        Welcome {userInfo && userInfo.name}
+      </h1>
       <div className="flex flex-col items-center md:items-start md:flex-row md:ml-[20%] gap-5 my-10">
         <ul className="menu menu-horizontal  md:menu-vertical md:w-56 md bg-base-100  p-2 rounded-box gap-5">
           <li>
@@ -34,7 +43,7 @@ const MyAccount = () => {
               <p className="hidden sm:block">Reservation</p>
             </Link>
           </li>
-          <li>
+          <li onClick={() => dispatch(logout())}>
             <span>
               <FaSignInAlt />
               <p className="hidden sm:block">Sign Out</p>

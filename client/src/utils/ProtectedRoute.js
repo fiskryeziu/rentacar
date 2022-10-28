@@ -1,15 +1,13 @@
 import { useContext } from 'react'
+import { useSelector } from 'react-redux'
 import { Navigate, Outlet, useLocation } from 'react-router-dom'
 import AuthContext from '../context/AuthContext'
 
 const ProtectedRoute = () => {
-  const { userDetails } = useContext(AuthContext)
+  const userDetails = useSelector((state) => state.userDetails)
+  const { userInfo } = userDetails
 
-  return userDetails && userDetails.isAdmin ? (
-    <Outlet />
-  ) : (
-    <Navigate to="/sign-in" />
-  )
+  return userInfo && userInfo.isAdmin ? <Outlet /> : <Navigate to="/sign-in" />
 }
 
 export default ProtectedRoute

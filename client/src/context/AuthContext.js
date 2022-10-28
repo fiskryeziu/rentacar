@@ -1,12 +1,11 @@
-import { createContext, useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { createContext, useState } from 'react'
 
 const AuthContext = createContext()
 
 export const AuthProvider = ({ children }) => {
   const data = {
     name: 'Fisnik',
-    isAdmin: true,
+    isAdmin: false,
   }
   const [userDetails] = useState(data)
 

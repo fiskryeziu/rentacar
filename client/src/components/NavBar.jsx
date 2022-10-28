@@ -2,13 +2,15 @@ import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import HamburgerMenu from './HamburgerMenu'
 import AuthContext from '../context/AuthContext'
+import { useSelector } from 'react-redux'
 
 const NavBar = () => {
-  const { userDetails } = useContext(AuthContext)
+  const userDetails = useSelector((state) => state.userDetails)
+  const { userInfo } = userDetails
   return (
     <nav
       className={
-        userDetails?.isAdmin
+        userInfo?.isAdmin
           ? 'hidden'
           : 'navbar flex items-center justify-between px-10 bg-neutral h-20'
       }
@@ -21,7 +23,7 @@ const NavBar = () => {
         <Link to="/cars">Cars</Link>
         <Link to="/about">About</Link>
         <Link to="/contact">Contact</Link>
-        {userDetails && !userDetails.isAdmin ? (
+        {userInfo && !userInfo.isAdmin ? (
           <Link
             to="/my-account"
             className="btn btn-sm  btn-outline btn-secondary"

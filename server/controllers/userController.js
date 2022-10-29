@@ -11,6 +11,7 @@ const loginUser = async (req, res) => {
       _id: user._id,
       name: user.name,
       email: user.email,
+      phoneNumber: user.phoneNumber,
       isAdmin: user.isAdmin,
       token: generateToken(user._id),
     })
@@ -64,6 +65,7 @@ const getUserById = async (req, res) => {
       _id: user._id,
       name: user.name,
       email: user.email,
+      phoneNumber: user.phoneNumber,
       isAdmin: user.isAdmin,
     })
   } else {
@@ -74,13 +76,13 @@ const getUserById = async (req, res) => {
 
 //users
 const updateUserById = async (req, res) => {
-  const { name, email, isAdmin, password } = req.body
+  const { email, password, phoneNumber } = req.body
 
   const user = await User.findById(req.user._id)
+
   if (user) {
-    user.name = name || user.name
     user.email = email || user.email
-    user.isAdmin = isAdmin
+    user.phoneNumber = phoneNumber || user.phoneNumber
 
     if (password) {
       user.password = password || user.password
@@ -92,12 +94,13 @@ const updateUserById = async (req, res) => {
       _id: updatedUser._id,
       name: updatedUser.name,
       email: updatedUser.email,
+      phoneNumber: updatedUser.phoneNumber,
       isAdmin: updatedUser.isAdmin,
       token: generateToken(updatedUser._id),
     })
   } else {
     res.status(404)
-    throw new Error('Could not update user!')
+    res.json({ message: 'Could not update user!' })
   }
 }
 //admin only

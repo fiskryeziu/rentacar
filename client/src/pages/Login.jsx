@@ -21,8 +21,11 @@ const Login = () => {
   useEffect(() => {
     if (userInfo) {
       navigate('/')
+    } else {
+      if (!userInfo) {
+        dispatch(reset())
+      }
     }
-    dispatch(reset())
   }, [navigate, userInfo, dispatch])
 
   const onChange = (e) => {

@@ -34,6 +34,21 @@ const createReservation = async (req, res) => {
   }
 }
 
+//user
+const getReservationsById = async (req, res) => {
+  const reservation = await Reservation.findById(req.user._id)
+  try {
+    if (reservation && reservation.length > 0) {
+      res.json(reservation)
+    } else {
+      res.status(400)
+      throw new Error('No Reservation')
+    }
+  } catch (error) {
+    res.status(400)
+    res.json({ message: error.message })
+  }
+}
 //admin only
 const getAllReservations = async (req, res) => {
   const reservation = await Reservation.find({})
@@ -75,4 +90,5 @@ export {
   getAllReservations,
   approveReservation,
   deleteReservation,
+  getReservationsById,
 }

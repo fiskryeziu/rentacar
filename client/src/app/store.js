@@ -1,6 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit'
 import carDetailsReducer from '../features/car/carDetailsSlice'
 import carReducer from '../features/car/carSlice'
+import reservationReducer from '../features/reservation/reservationSlice'
 import userReducer from '../features/user/userSlice'
 import userUpdateReducer from '../features/user/userUpdateSlice'
 
@@ -10,5 +11,6 @@ export const store = configureStore({
     userUpdate: userUpdateReducer,
     carsList: carReducer,
     carDetails: carDetailsReducer,
+    reservationList: reservationReducer,
   },
 })

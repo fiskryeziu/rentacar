@@ -1,13 +1,35 @@
-import React from 'react'
-import cars from '../cars'
+import React, { useEffect } from 'react'
 import ReservationCard from './ReservationCard'
+import { useDispatch, useSelector } from 'react-redux'
+import Spinner from './Spinner'
+import Alert from './Alert'
+import { getUserReservation } from '../features/reservation/reservationSlice'
 
 const UserReservations = () => {
+  const dispatch = useDispatch()
+  const userDetails = useSelector((state) => state.userDetails)
+  const { userInfo } = userDetails
+
+  const reservationList = useSelector((state) => state.reservationList)
+  const { reservations, error, loading } = reservationList
+
+  useEffect(() => {
+    if (userInfo) {
+      dispatch(getUserReservation())
+    }
+  }, [dispatch, userInfo])
+
+  if (loading) {
+    ;<Spinner />
+  }
   return (
     <div className="flex flex-col gap-4 mx-2">
-      {cars.map((car) => (
-        <ReservationCard key={car.id} car={car} />
-      ))}
+      {error && <Alert variant="alert-error" message={error} />}
+
+      {reservations.length > 0 &&
+        reservations.map((reservation) => (
+          <ReservationCard key={reservation._id} reservation={reservation} />
+        ))}
     </div>
   )
 }

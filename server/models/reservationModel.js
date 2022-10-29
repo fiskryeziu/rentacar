@@ -31,6 +31,14 @@ const reservationSchema = new Schema({
     required: true,
     default: false,
   },
+  isPaid: {
+    type: Boolean,
+    required: true,
+    default: false,
+  },
+  paidAt: {
+    type: Date,
+  },
   totalCost: {
     type: Number,
     required: true,

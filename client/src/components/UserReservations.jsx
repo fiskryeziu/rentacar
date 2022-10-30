@@ -20,12 +20,11 @@ const UserReservations = () => {
   }, [dispatch, userInfo])
 
   if (loading) {
-    ;<Spinner />
+    return <Spinner />
   }
   return (
     <div className="flex flex-col gap-4 mx-2">
       {error && <Alert variant="alert-error" message={error} />}
-
       {reservations.length > 0 &&
         reservations.map((reservation) => (
           <ReservationCard key={reservation._id} reservation={reservation} />

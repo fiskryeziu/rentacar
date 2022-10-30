@@ -12,6 +12,8 @@ const router = express.Router()
 
 router.route('/create').post(protect, createReservation)
 router.route('/').get(protect, getReservationsById)
+router.route('/admin').get(protect, getAllReservations)
+
 router
   .route('/:id')
   .put(protect, approveReservation)

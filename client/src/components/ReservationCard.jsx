@@ -1,16 +1,23 @@
 import React from 'react'
+import { format, parseISO } from 'date-fns'
 
 const ReservationCard = ({ reservation }) => {
+  function formatDate(date) {
+    return format(parseISO(date), 'dd-MM-yyyy')
+  }
   return (
     <div className="card card-compact max-w-sm w-full bg-base-100 shadow-xl image-full">
       <figure>
-        <img src={reservation.images[0]} alt="carimg" />
+        <img src={reservation.reservationItem.image} alt="carimg" />
       </figure>
       <div className="card-body">
-        <h2 className="card-title">{reservation.brand}</h2>
-        <p>The car is reserved from 12/01/2022 to 15/01/2022</p>
+        <h2 className="card-title">{reservation.reservationItem.brand}</h2>
+        <p>
+          The car is reserved from {formatDate(reservation.fromDate)} to{' '}
+          {formatDate(reservation.toDate)} totalCost {reservation.totalCost} €
+        </p>
         <div>
-          {reservation.isConfirmed ? (
+          {reservation.isApproved ? (
             <button className="btn btn-xs btn-success btn-outline">
               confirmed
             </button>
@@ -24,7 +31,7 @@ const ReservationCard = ({ reservation }) => {
           )}
         </div>
         <div className="card-actions justify-end">
-          {reservation.isConfirmed && !reservation.isPaid && (
+          {reservation.isApproved && !reservation.isPaid && (
             <button className="btn  btn-secondary btn-sm md:btn-md">
               Buy Now
             </button>

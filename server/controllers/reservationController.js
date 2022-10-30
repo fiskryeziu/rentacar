@@ -3,40 +3,40 @@ import Reservation from '../models/reservationModel.js'
 import Car from '../models/carModel.js'
 
 const createReservation = async (req, res) => {
-  const carId = '6351b4b0aca70329f9716df3'
-  const { fromDate, toDate, isApproved } = req.body
+  const { fromDate, toDate, carId, totalCost } = req.body
 
   const car = await Car.findById(carId)
+
   if (car) {
-    console.log(car)
     const reservationItem = {
       car: carId,
       name: car.name,
       image: car.images[0],
       brand: car.brand,
+      pricePerDay: car.pricePerDay,
     }
     if (reservationItem && reservationItem === 0) {
       res.status(400)
       res.json({ message: 'No order items' })
     } else {
-      const reservation = new Reservation({
+      car.isReserved = true
+      const toReserved = await car.save()
+      const reservation = await Reservation.create({
         reservationItem,
         user: req.user._id,
         fromDate,
         toDate,
-        isApproved,
-        totalCost: 1000,
+        totalCost: totalCost,
       })
-      const createdReservation = await reservation.save()
 
-      res.status(200).json(createdReservation)
+      res.status(200).json(reservation)
     }
   }
 }
 
 //user
 const getReservationsById = async (req, res) => {
-  const reservation = await Reservation.findById(req.user._id)
+  const reservation = await Reservation.find({ user: req.user._id })
   try {
     if (reservation && reservation.length > 0) {
       res.json(reservation)

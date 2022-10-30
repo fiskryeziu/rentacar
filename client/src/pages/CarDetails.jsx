@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { Link, useParams } from 'react-router-dom'
 import Slider from '../components/Slider'
 import { FaCalendar, FaGasPump } from 'react-icons/fa'
 import { MdAirlineSeatReclineExtra } from 'react-icons/md'
@@ -9,20 +9,57 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getCarbyId } from '../features/car/carDetailsSlice'
 import Spinner from '../components/Spinner'
 import Alert from '../components/Alert'
+import DatePicker from 'react-datepicker'
+import 'react-datepicker/dist/react-datepicker.css'
+import { addMonths } from 'date-fns'
+import { createUserReservation } from '../features/reservation/reservationSlice'
 
 const CarDetails = () => {
+  const [startDate, setStartDate] = useState(new Date())
+  const [endDate, setEndDate] = useState(new Date())
+
   const params = useParams()
   const carId = params.id
 
   const dispatch = useDispatch()
   const carDetails = useSelector((state) => state.carDetails)
-
   const { loading, error, car } = carDetails
 
-  useEffect(() => {
-    dispatch(getCarbyId(carId))
-  }, [dispatch, carId])
+  const reservationList = useSelector((state) => state.reservationList)
+  const { laoding: reservationLoading, success } = reservationList
 
+  const userDetails = useSelector((state) => state.userDetails)
+  const { userInfo } = userDetails
+
+  useEffect(() => {
+    if (carId || success) {
+      dispatch(getCarbyId(carId))
+    }
+  }, [dispatch, carId, success])
+
+  function dateDifference(dateOne, dateTwo) {
+    const miliseconds = dateTwo.getTime() - dateOne.getTime()
+
+    let TotalDays = Math.ceil(miliseconds / (1000 * 3600 * 24))
+    return TotalDays
+  }
+
+  const reserveHandler = () => {
+    const diff = dateDifference(startDate, endDate)
+    if (diff === 0) {
+      alert('min 1 day difference')
+    } else {
+      const totalCost = diff * car.pricePerDay
+      dispatch(
+        createUserReservation({
+          fromDate: startDate,
+          toDate: endDate,
+          carId,
+          totalCost,
+        })
+      )
+    }
+  }
   if (loading) {
     return <Spinner />
   }
@@ -59,10 +96,40 @@ const CarDetails = () => {
             <div className="flex flex-col">
               <p className="text-4xl text-accent mb-5">{car.pricePerDay} $</p>
               <label htmlFor="fromdate">From Date</label>
-              <input type="date" className="input input-bordered" />
+              <DatePicker
+                selected={startDate}
+                onChange={(date) => setStartDate(date)}
+                selectsStart
+                startDate={startDate}
+                minDate={new Date()}
+                endDate={endDate}
+              />
               <label htmlFor="todate">To Date</label>
-              <input type="date" className="input input-bordered" />
-              <button className="btn btn-accent mt-5">Reserve</button>
+              <DatePicker
+                selected={endDate}
+                onChange={(date) => setEndDate(date)}
+                selectsEnd
+                startDate={startDate}
+                endDate={endDate}
+                minDate={startDate}
+                maxDate={addMonths(startDate, 1)}
+                showDisabledMonthNavigation
+              />
+              {userInfo ? (
+                <button
+                  className={`btn btn-accent mt-5 ${
+                    reservationLoading ? 'loading' : ''
+                  }`}
+                  onClick={reserveHandler}
+                  disabled={car.isReserved}
+                >
+                  {car.isReserved ? 'Reserved' : 'Reserve'}
+                </button>
+              ) : (
+                <Link to="/sign-in" className="btn btn-accent mt-5">
+                  Sign in for reservations
+                </Link>
+              )}
             </div>
           </div>
         </>

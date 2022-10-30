@@ -14,6 +14,7 @@ const CarLists = () => {
   useEffect(() => {
     dispatch(getCars())
   }, [dispatch])
+
   if (loading) {
     return <Spinner />
   }

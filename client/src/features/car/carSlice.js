@@ -9,9 +9,9 @@ const initialState = {
 
 export const getCars = createAsyncThunk(
   'car/getCars',
-  async (_, { rejectWithValue }) => {
+  async (rangeValue, { rejectWithValue }) => {
     try {
-      const { data } = await API.get('api/cars')
+      const { data } = await API.get(`api/cars?rangeValue=${rangeValue}`)
       return data
     } catch (err) {
       if (!err.response) {

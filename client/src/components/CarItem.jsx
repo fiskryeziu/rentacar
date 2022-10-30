@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 const CarItem = ({ car }) => {
   return (
     <Link
-      to={`/cars/${car._id}`}
+      to={`/car/${car._id}`}
       className="card card-compact w-96 bg-base-100 shadow-xl"
     >
       <figure>

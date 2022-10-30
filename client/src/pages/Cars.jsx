@@ -9,6 +9,7 @@ const Cars = () => {
     <>
       <div className="w-full flex flex-col justify-between md:flex-row">
         <Range min={0} max={1000} />
+
         <div className="md:w-3/4">
           <CarLists />
         </div>

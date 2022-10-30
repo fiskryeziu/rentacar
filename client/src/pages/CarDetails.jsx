@@ -97,6 +97,7 @@ const CarDetails = () => {
               <p className="text-4xl text-accent mb-5">{car.pricePerDay} $</p>
               <label htmlFor="fromdate">From Date</label>
               <DatePicker
+                className="bg-neutral rounded-md px-2"
                 selected={startDate}
                 onChange={(date) => setStartDate(date)}
                 selectsStart
@@ -106,6 +107,7 @@ const CarDetails = () => {
               />
               <label htmlFor="todate">To Date</label>
               <DatePicker
+                className="bg-neutral rounded-md px-2"
                 selected={endDate}
                 onChange={(date) => setEndDate(date)}
                 selectsEnd

@@ -17,7 +17,7 @@ const HamburgerMenu = () => {
   }
   return (
     <>
-      <label className="btn btn-circle swap swap-rotate md:hidden z-20">
+      <label className="btn btn-circle swap swap-rotate md:hidden z-50">
         <input type="checkbox" checked={toggle} onChange={toggleHandler} />
 
         <svg

@@ -21,6 +21,11 @@ const MyAccount = () => {
     }
   }, [navigate, userInfo])
 
+  const logoutHandler = () => {
+    dispatch(logout())
+    navigate('/sign-in')
+  }
+
   return (
     <>
       <Hero img={url} pageName="My Account" />
@@ -41,7 +46,7 @@ const MyAccount = () => {
               <p className="hidden sm:block">Reservation</p>
             </Link>
           </li>
-          <li onClick={() => dispatch(logout())}>
+          <li onClick={logoutHandler}>
             <span>
               <FaSignInAlt />
               <p className="hidden sm:block">Sign Out</p>

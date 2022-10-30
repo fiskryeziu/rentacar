@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import API from '../../api/api'
+import { resetReservation } from '../reservation/reservationSlice'
 
 // Get user from localStorage
 const user = JSON.parse(localStorage.getItem('userInfo'))
@@ -56,9 +57,14 @@ export const registerUser = createAsyncThunk(
   }
 )
 
-export const logout = createAsyncThunk('auth/logout', async () => {
-  await localStorage.removeItem('userInfo')
-})
+export const logout = createAsyncThunk(
+  'auth/logout',
+  async (_, { dispatch }) => {
+    await localStorage.removeItem('userInfo')
+    dispatch(reset())
+    dispatch(resetReservation())
+  }
+)
 
 const userSlice = createSlice({
   name: 'user',

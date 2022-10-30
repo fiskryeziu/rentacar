@@ -6,7 +6,7 @@ const ReservationCard = ({ reservation }) => {
     return format(parseISO(date), 'dd-MM-yyyy')
   }
   return (
-    <div className="card card-compact max-w-sm w-full bg-base-100 shadow-xl image-full">
+    <div className="card card-compact max-w-sm w-full bg-base-100 shadow-xl image-full z-0">
       <figure>
         <img src={reservation.reservationItem.image} alt="carimg" />
       </figure>

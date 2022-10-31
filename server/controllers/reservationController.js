@@ -51,7 +51,10 @@ const getReservationsById = async (req, res) => {
 }
 //admin only
 const getAllReservations = async (req, res) => {
-  const reservation = await Reservation.find({})
+  const reservation = await Reservation.find({}).populate(
+    'user',
+    'name phoneNumber'
+  )
   if (reservation && reservation.length > 0) {
     res.json(reservation)
   } else {

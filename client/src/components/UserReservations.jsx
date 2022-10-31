@@ -11,8 +11,8 @@ const UserReservations = () => {
   const userDetails = useSelector((state) => state.userDetails)
   const { userInfo } = userDetails
 
-  const reservationList = useSelector((state) => state.reservationList)
-  const { reservations, error, loading } = reservationList
+  const reservationUser = useSelector((state) => state.reservationUser)
+  const { reservations, error, loading } = reservationUser
 
   const navigate = useNavigate()
 

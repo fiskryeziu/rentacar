@@ -16,7 +16,7 @@ router.route('/admin').get(protect, admin, getAllReservations)
 
 router
   .route('/:id')
-  .put(protect, approveReservation)
-  .delete(protect, deleteReservation)
+  .put(protect, admin, approveReservation)
+  .delete(protect, admin, deleteReservation)
 
 export default router

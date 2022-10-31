@@ -55,6 +55,7 @@ const getAllReservations = async (req, res) => {
     'user',
     'name phoneNumber'
   )
+
   if (reservation && reservation.length > 0) {
     res.json(reservation)
   } else {
@@ -64,9 +65,7 @@ const getAllReservations = async (req, res) => {
 
 //admin only
 const approveReservation = async (req, res) => {
-  const { id } = req.params
-  const reservation = await Reservation.findById(id)
-  console.log(reservation)
+  const reservation = await Reservation.findById(req.params.id)
   if (reservation) {
     reservation.isApproved = true
     await reservation.save()

@@ -3,6 +3,10 @@ import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getAllReservations } from '../features/reservation/reservationListSlice'
 import { TbCircleX, TbCircleCheck } from 'react-icons/tb'
+import {
+  reservationToApprove,
+  resetApproveReservation,
+} from '../features/reservation/reservationApproveSlice'
 
 const Reservations = () => {
   const dispatch = useDispatch()
@@ -13,13 +17,19 @@ const Reservations = () => {
   const reservationList = useSelector((state) => state.reservationList)
   const { reservations } = reservationList
 
-  console.log(reservations)
+  const reservationApprove = useSelector((state) => state.reservationApprove)
+  const { success } = reservationApprove
+
   useEffect(() => {
-    if (userInfo && userInfo.isAdmin) {
+    if (userInfo || success) {
+      dispatch(resetApproveReservation())
       dispatch(getAllReservations())
     }
-  }, [dispatch, userInfo])
+  }, [dispatch, userInfo, success])
 
+  const deleteHandler = (id) => {
+    dispatch(reservationToApprove(id))
+  }
   return (
     <div className="overflow-x-auto mb-20">
       <table className="table table-compact w-full z-0">
@@ -61,7 +71,10 @@ const Reservations = () => {
               </td>
               <td>
                 {!reservation.isApproved && (
-                  <button className="btn btn-outline btn-xs btn-warning">
+                  <button
+                    className="btn btn-outline btn-xs btn-warning"
+                    onClick={() => deleteHandler(reservation._id)}
+                  >
                     Approve
                   </button>
                 )}

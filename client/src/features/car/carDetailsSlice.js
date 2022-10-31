@@ -38,5 +38,4 @@ const carDetailsSlice = createSlice({
       })
   },
 })
-
 export default carDetailsSlice.reducer

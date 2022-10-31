@@ -61,11 +61,11 @@ export const createUserReservation = createAsyncThunk(
 )
 
 const reservationSlice = createSlice({
-  name: 'reservation',
+  name: 'reservationUser',
   initialState,
   reducers: {
     resetReservation() {
-      return { initialState }
+      return {}
     },
   },
   extraReducers(builder) {

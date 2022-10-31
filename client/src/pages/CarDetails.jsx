@@ -1,23 +1,27 @@
 import React, { useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import Slider from '../components/Slider'
 import { FaCalendar, FaGasPump } from 'react-icons/fa'
 import { MdAirlineSeatReclineExtra } from 'react-icons/md'
 import Footer from '../components/Footer'
 import Service from '../components/Service'
 import { useDispatch, useSelector } from 'react-redux'
-import { getCarbyId } from '../features/car/carDetailsSlice'
+import { getCarbyId, resetCarDetails } from '../features/car/carDetailsSlice'
 import Spinner from '../components/Spinner'
 import Alert from '../components/Alert'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import { addMonths } from 'date-fns'
-import { createUserReservation } from '../features/reservation/reservationSlice'
+import {
+  createUserReservation,
+  resetReservation,
+} from '../features/reservation/reservationSlice'
 
 const CarDetails = () => {
   const [startDate, setStartDate] = useState(new Date())
   const [endDate, setEndDate] = useState(new Date())
 
+  const navigate = useNavigate()
   const params = useParams()
   const carId = params.id
 
@@ -25,17 +29,21 @@ const CarDetails = () => {
   const carDetails = useSelector((state) => state.carDetails)
   const { loading, error, car } = carDetails
 
-  const reservationList = useSelector((state) => state.reservationList)
-  const { laoding: reservationLoading, success } = reservationList
+  const reservationUser = useSelector((state) => state.reservationUser)
+  const { laoding: reservationLoading, success } = reservationUser
 
   const userDetails = useSelector((state) => state.userDetails)
   const { userInfo } = userDetails
 
   useEffect(() => {
-    if (carId || success) {
+    if (!userInfo) {
+      navigate('/sign-in')
+    }
+    if (!car || car._id !== carId || success) {
+      dispatch(resetReservation())
       dispatch(getCarbyId(carId))
     }
-  }, [dispatch, carId, success])
+  }, [dispatch, navigate, car, carId, success, userInfo])
 
   function dateDifference(dateOne, dateTwo) {
     const miliseconds = dateTwo.getTime() - dateOne.getTime()
@@ -122,7 +130,7 @@ const CarDetails = () => {
                   className={`btn btn-accent mt-5 ${
                     reservationLoading ? 'loading' : ''
                   }`}
-                  onClick={reserveHandler}
+                  onClick={() => reserveHandler()}
                   disabled={car.isReserved}
                 >
                   {car.isReserved ? 'Reserved' : 'Reserve'}

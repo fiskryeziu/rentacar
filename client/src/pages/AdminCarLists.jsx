@@ -1,6 +1,22 @@
 import React from 'react'
+import { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { getAllCars } from '../features/car/carSlice'
 
 const AdminCarLists = () => {
+  const dispatch = useDispatch()
+  const userDetails = useSelector((state) => state.userDetails)
+  const { userInfo } = userDetails
+
+  const carsList = useSelector((state) => state.carsList)
+  const { cars } = carsList
+
+  useEffect(() => {
+    if (userInfo) {
+      dispatch(getAllCars())
+    }
+  }, [dispatch, userInfo])
+  console.log(cars)
   return (
     <div className="overflow-x-auto mb-20">
       <table className="table table-compact w-full z-0">

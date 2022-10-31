@@ -36,9 +36,6 @@ const CarDetails = () => {
   const { userInfo } = userDetails
 
   useEffect(() => {
-    if (!userInfo) {
-      navigate('/sign-in')
-    }
     if (!car || car._id !== carId || success) {
       dispatch(resetReservation())
       dispatch(getCarbyId(carId))

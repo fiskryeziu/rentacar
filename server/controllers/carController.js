@@ -23,4 +23,18 @@ const getCarById = async (req, res) => {
   }
 }
 
-export { getCars, getCarById }
+//admin
+const getAllCars = async (req, res) => {
+  try {
+    const cars = await Car.find({})
+    res.status(200).json(cars)
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Something went wrong',
+      error: err.message,
+    })
+  }
+}
+
+export { getCars, getCarById, getAllCars }

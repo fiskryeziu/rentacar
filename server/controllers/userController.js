@@ -56,9 +56,25 @@ const registerUser = async (req, res) => {
   }
 }
 
-//admin only
+//user
 const getUserById = async (req, res) => {
   const user = await User.findById(req.user._id)
+  if (user) {
+    res.json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      phoneNumber: user.phoneNumber,
+      isAdmin: user.isAdmin,
+    })
+  } else {
+    res.status(404)
+    throw new Error('User not found')
+  }
+}
+//
+const getUser = async (req, res) => {
+  const user = await User.findById(req.params.id)
   if (user) {
     res.json({
       _id: user._id,
@@ -125,5 +141,45 @@ const updateUsersById = async (req, res) => {
     throw new Error('Could not update user!')
   }
 }
+//admin only
+const getAllUsers = async (req, res) => {
+  const users = await User.find({})
+  try {
+    if (users) {
+      res.json(users)
+    } else {
+      res.status(404)
+      throw new Error('Could not find any user!')
+    }
+  } catch (error) {
+    res.status(404)
+    res.json({ message: error.message })
+  }
+}
+//admin only
+const deleteUser = async (req, res) => {
+  const user = await User.findById(req.params.id)
+  try {
+    if (user) {
+      await user.remove()
+      res.json({ message: 'User deleted' })
+    } else {
+      res.status(404)
+      throw new Error('User not found')
+    }
+  } catch (error) {
+    res.status(404)
+    res.json({ message: error.message })
+  }
+}
 
-export { loginUser, getUserById, updateUserById, updateUsersById, registerUser }
+export {
+  loginUser,
+  getUserById,
+  updateUserById,
+  updateUsersById,
+  registerUser,
+  getAllUsers,
+  deleteUser,
+  getUser,
+}

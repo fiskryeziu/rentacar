@@ -9,8 +9,8 @@ import { logout } from '../features/user/userSlice'
 const url =
   'https://images.pexels.com/photos/8134647/pexels-photo-8134647.jpeg?cs=srgb&dl=pexels-supreet-8134647.jpg&fm=jpg'
 const MyAccount = () => {
-  const userDetails = useSelector((state) => state.userDetails)
-  const { userInfo } = userDetails
+  const userLogin = useSelector((state) => state.userLogin)
+  const { userInfo } = userLogin
 
   const dispatch = useDispatch()
   const navigate = useNavigate()

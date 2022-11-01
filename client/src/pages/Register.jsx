@@ -16,8 +16,8 @@ const Register = () => {
 
   const dispatch = useDispatch()
 
-  const userDetails = useSelector((state) => state.userDetails)
-  const { userInfo, error } = userDetails
+  const userLogin = useSelector((state) => state.userLogin)
+  const { userInfo, error } = userLogin
 
   const navigate = useNavigate()
 

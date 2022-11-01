@@ -26,7 +26,7 @@ export const getAllCars = createAsyncThunk(
   async (_, { rejectWithValue, getState }) => {
     try {
       const {
-        userDetails: { userInfo },
+        userLogin: { userInfo },
       } = getState()
       const config = {
         headers: {
@@ -49,7 +49,7 @@ export const deleteCarById = createAsyncThunk(
   async (id, { rejectWithValue, getState }) => {
     try {
       const {
-        userDetails: { userInfo },
+        userLogin: { userInfo },
       } = getState()
       const config = {
         headers: {

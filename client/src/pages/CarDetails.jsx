@@ -32,8 +32,8 @@ const CarDetails = () => {
   const reservationUser = useSelector((state) => state.reservationUser)
   const { laoding: reservationLoading, success } = reservationUser
 
-  const userDetails = useSelector((state) => state.userDetails)
-  const { userInfo } = userDetails
+  const userLogin = useSelector((state) => state.userLogin)
+  const { userInfo } = userLogin
 
   useEffect(() => {
     if (!car || car._id !== carId || success) {

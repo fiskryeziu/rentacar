@@ -10,8 +10,8 @@ import {
 
 const AdminCarLists = () => {
   const dispatch = useDispatch()
-  const userDetails = useSelector((state) => state.userDetails)
-  const { userInfo } = userDetails
+  const userLogin = useSelector((state) => state.userLogin)
+  const { userInfo } = userLogin
 
   const carsList = useSelector((state) => state.carsList)
   const { cars, success } = carsList

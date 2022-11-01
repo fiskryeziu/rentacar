@@ -12,7 +12,7 @@ export const getAllReservations = createAsyncThunk(
   async (_, { rejectWithValue, getState }) => {
     try {
       const {
-        userDetails: { userInfo },
+        userLogin: { userInfo },
       } = getState()
       const config = {
         headers: {

@@ -1,9 +1,13 @@
 import express from 'express'
 import {
+  deleteUser,
+  getAllUsers,
+  getUser,
   getUserById,
   loginUser,
   registerUser,
   updateUserById,
+  updateUsersById,
 } from '../controllers/userController.js'
 import { admin, protect } from '../middlewares/authMiddleware.js'
 
@@ -13,6 +17,9 @@ router.route('/register').post(registerUser)
 router.route('/login').post(loginUser)
 router.route('/profile').get(protect, getUserById)
 router.route('/profile-update').put(protect, updateUserById)
-router.route('/:id').put(protect, admin, updateUserById)
+router.route('/admin').get(protect, admin, getAllUsers)
+router.route('/admin/:id').put(protect, admin, updateUsersById)
+router.route('/admin/delete/:id').delete(protect, admin, deleteUser)
+router.route('/admin/user-details/:id').get(protect, admin, getUser)
 
 export default router

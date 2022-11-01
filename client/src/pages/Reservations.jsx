@@ -11,8 +11,8 @@ import {
 const Reservations = () => {
   const dispatch = useDispatch()
 
-  const userDetails = useSelector((state) => state.userDetails)
-  const { userInfo } = userDetails
+  const userLogin = useSelector((state) => state.userLogin)
+  const { userInfo } = userLogin
 
   const reservationList = useSelector((state) => state.reservationList)
   const { reservations } = reservationList

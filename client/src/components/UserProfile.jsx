@@ -17,8 +17,8 @@ const UserProfile = () => {
   })
   const { name, email, phoneNumber, password, confirmPassword } = formData
 
-  const userDetails = useSelector((state) => state.userDetails)
-  const { userInfo } = userDetails
+  const userLogin = useSelector((state) => state.userLogin)
+  const { userInfo } = userLogin
 
   const userUpdate = useSelector((state) => state.userUpdate)
 

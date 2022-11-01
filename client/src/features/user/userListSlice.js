@@ -1,28 +1,27 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import API from '../../api/api'
 
-// Get user from localStorage
-const user = JSON.parse(localStorage.getItem('userInfo'))
-
 const initialState = {
   loading: false,
-  userInfo: user ? user : null,
+  users: [],
   error: '',
 }
 
 export const getAllUsers = createAsyncThunk(
   'user/getAllUsers',
-  async (userData, { rejectWithValue }) => {
+  async (_, { rejectWithValue, getState }) => {
     try {
+      const {
+        userLogin: { userInfo },
+      } = getState()
       const config = {
         headers: {
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${userInfo.token}`,
         },
       }
-      const { data } = await API.post('api/user/login', userData, config)
-      if (data) {
-        localStorage.setItem('userInfo', JSON.stringify(data))
-      }
+      const { data } = await API.get('api/user/admin', config)
+
       return data
     } catch (error) {
       if (!error.response) {
@@ -36,12 +35,7 @@ export const getAllUsers = createAsyncThunk(
 const userListSlice = createSlice({
   name: 'userList',
   initialState,
-  reducers: {
-    reset: (state) => {
-      state.error = ''
-      state.userInfo = null
-    },
-  },
+  reducers: {},
   extraReducers(builder) {
     builder
       .addCase(getAllUsers.pending, (state, action) => {
@@ -49,7 +43,7 @@ const userListSlice = createSlice({
       })
       .addCase(getAllUsers.fulfilled, (state, action) => {
         state.loading = false
-        state.userInfo = action.payload
+        state.users = action.payload
       })
       .addCase(getAllUsers.rejected, (state, action) => {
         state.loading = false
@@ -58,5 +52,4 @@ const userListSlice = createSlice({
   },
 })
 
-export const { reset } = userListSlice.actions
 export default userListSlice.reducer

@@ -6,9 +6,9 @@ const initialState = {
   error: '',
 }
 
-export const reservationToApprove = createAsyncThunk(
-  'reservationApprove/reservationToApprove',
-  async (id, { rejectWithValue, getState }) => {
+export const updateUser = createAsyncThunk(
+  'adminUserUpdate/updateUser',
+  async (userData, { rejectWithValue, getState }) => {
     try {
       const {
         userLogin: { userInfo },
@@ -19,7 +19,11 @@ export const reservationToApprove = createAsyncThunk(
           Authorization: `Bearer ${userInfo.token}`,
         },
       }
-      const { data } = await API.put(`api/reservation/${id}`, {}, config)
+      const { data } = await API.put(
+        `api/user/admin/${userData.id}`,
+        userData,
+        config
+      )
 
       return data
     } catch (error) {
@@ -31,29 +35,24 @@ export const reservationToApprove = createAsyncThunk(
   }
 )
 
-const reservationApproveSlice = createSlice({
-  name: 'reservationApprove',
+const adminUserUpdateSlice = createSlice({
+  name: 'adminUserUpdate',
   initialState,
-  reducers: {
-    resetApproveReservation() {
-      return { initialState }
-    },
-  },
+  reducers: {},
   extraReducers(builder) {
     builder
-      .addCase(reservationToApprove.pending, (state, action) => {
+      .addCase(updateUser.pending, (state, action) => {
         state.loading = true
       })
-      .addCase(reservationToApprove.fulfilled, (state, action) => {
+      .addCase(updateUser.fulfilled, (state, action) => {
         state.loading = false
         state.success = true
       })
-      .addCase(reservationToApprove.rejected, (state, action) => {
+      .addCase(updateUser.rejected, (state, action) => {
         state.loading = false
         state.error = action.payload.message
       })
   },
 })
 
-export const { resetApproveReservation } = reservationApproveSlice.actions
-export default reservationApproveSlice.reducer
+export default adminUserUpdateSlice.reducer

@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom'
 
 const HamburgerMenu = () => {
   const [toggle, setToggle] = useState(false)
-  const userDetails = useSelector((state) => state.userDetails)
-  const { userInfo } = userDetails
+  const userLogin = useSelector((state) => state.userLogin)
+  const { userInfo } = userLogin
 
   useEffect(() => {
     toggle

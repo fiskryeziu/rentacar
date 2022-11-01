@@ -13,7 +13,7 @@ export const userUpdateProfile = createAsyncThunk(
   async (userData, { getState, rejectWithValue }) => {
     try {
       const {
-        userDetails: { userInfo },
+        userLogin: { userInfo },
       } = getState()
 
       const config = {

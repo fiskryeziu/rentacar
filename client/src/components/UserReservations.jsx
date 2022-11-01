@@ -8,8 +8,8 @@ import { useNavigate } from 'react-router-dom'
 
 const UserReservations = () => {
   const dispatch = useDispatch()
-  const userDetails = useSelector((state) => state.userDetails)
-  const { userInfo } = userDetails
+  const userLogin = useSelector((state) => state.userLogin)
+  const { userInfo } = userLogin
 
   const reservationUser = useSelector((state) => state.reservationUser)
   const { reservations, error, loading } = reservationUser

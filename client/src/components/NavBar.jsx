@@ -4,8 +4,8 @@ import HamburgerMenu from './HamburgerMenu'
 import { useSelector } from 'react-redux'
 
 const NavBar = () => {
-  const userDetails = useSelector((state) => state.userDetails)
-  const { userInfo } = userDetails
+  const userLogin = useSelector((state) => state.userLogin)
+  const { userInfo } = userLogin
   return (
     <nav
       className={

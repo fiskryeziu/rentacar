@@ -12,7 +12,7 @@ export const getUserReservation = createAsyncThunk(
   async (_, { rejectWithValue, getState }) => {
     try {
       const {
-        userDetails: { userInfo },
+        userLogin: { userInfo },
       } = getState()
       const config = {
         headers: {
@@ -36,7 +36,7 @@ export const createUserReservation = createAsyncThunk(
   async (reservationData, { rejectWithValue, getState }) => {
     try {
       const {
-        userDetails: { userInfo },
+        userLogin: { userInfo },
       } = getState()
       const config = {
         headers: {

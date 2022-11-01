@@ -19,7 +19,6 @@ const Reservations = () => {
 
   const reservationApprove = useSelector((state) => state.reservationApprove)
   const { success } = reservationApprove
-
   useEffect(() => {
     if (userInfo || success) {
       dispatch(resetApproveReservation())
@@ -47,40 +46,41 @@ const Reservations = () => {
           </tr>
         </thead>
         <tbody>
-          {reservations.map((reservation, index) => (
-            <tr key={reservation._id}>
-              <td>{index + 1}</td>
-              <td>{reservation.reservationItem.car}</td>
-              <td>{reservation.reservationItem.name}</td>
-              <td>{reservation.totalCost}</td>
-              <td>{reservation.user.name}</td>
-              <td>{reservation.user.phoneNumber}</td>
-              <td>
-                {reservation.isPaid ? (
-                  <TbCircleCheck className="text-2xl text-success" />
-                ) : (
-                  <TbCircleX className="text-2xl text-error text-center" />
-                )}
-              </td>
-              <td>
-                {reservation.isApproved ? (
-                  <TbCircleCheck className="text-2xl text-success" />
-                ) : (
-                  <TbCircleX className="text-2xl text-error text-center" />
-                )}
-              </td>
-              <td>
-                {!reservation.isApproved && (
-                  <button
-                    className="btn btn-outline btn-xs btn-warning"
-                    onClick={() => deleteHandler(reservation._id)}
-                  >
-                    Approve
-                  </button>
-                )}
-              </td>
-            </tr>
-          ))}
+          {reservations.length > 0 &&
+            reservations.map((reservation, index) => (
+              <tr key={reservation._id}>
+                <th>{index + 1}</th>
+                <td>{reservation.reservationItem.car}</td>
+                <td>{reservation.reservationItem.name}</td>
+                <td>{reservation.totalCost}</td>
+                <td>{reservation.user.name}</td>
+                <td>{reservation.user.phoneNumber}</td>
+                <td>
+                  {reservation.isPaid ? (
+                    <TbCircleCheck className="text-2xl text-success" />
+                  ) : (
+                    <TbCircleX className="text-2xl text-error text-center" />
+                  )}
+                </td>
+                <td>
+                  {reservation.isApproved ? (
+                    <TbCircleCheck className="text-2xl text-success" />
+                  ) : (
+                    <TbCircleX className="text-2xl text-error text-center" />
+                  )}
+                </td>
+                <td>
+                  {!reservation.isApproved && (
+                    <button
+                      className="btn btn-outline btn-xs btn-warning"
+                      onClick={() => deleteHandler(reservation._id)}
+                    >
+                      Approve
+                    </button>
+                  )}
+                </td>
+              </tr>
+            ))}
         </tbody>
         <tfoot>
           <tr>

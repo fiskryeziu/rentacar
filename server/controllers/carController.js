@@ -36,5 +36,23 @@ const getAllCars = async (req, res) => {
     })
   }
 }
+//admin
+const deleteCarById = async (req, res) => {
+  const { id } = req.params
+  console.log(id)
+  try {
+    const car = await Car.findById(id)
+    if (car) {
+      await car.remove()
+      res.status(200).json('Car deleted')
+    }
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Something went wrong',
+      error: err.message,
+    })
+  }
+}
 
-export { getCars, getCarById, getAllCars }
+export { getCars, getCarById, getAllCars, deleteCarById }

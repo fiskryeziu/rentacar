@@ -28,7 +28,6 @@ export const getAllCars = createAsyncThunk(
       const {
         userDetails: { userInfo },
       } = getState()
-      console.log(userInfo)
       const config = {
         headers: {
           'Content-Type': 'application/json',
@@ -45,11 +44,38 @@ export const getAllCars = createAsyncThunk(
     }
   }
 )
+export const deleteCarById = createAsyncThunk(
+  'car/deleteCarById',
+  async (id, { rejectWithValue, getState }) => {
+    try {
+      const {
+        userDetails: { userInfo },
+      } = getState()
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      }
+      const { data } = await API.delete(`api/cars/admin/${id}`, config)
+      return data
+    } catch (err) {
+      if (!err.response) {
+        throw err
+      }
+      return rejectWithValue(err.response.data)
+    }
+  }
+)
 
 const carSlice = createSlice({
   name: 'car',
   initialState,
-  reducers: {},
+  reducers: {
+    resetCarState(state, action) {
+      return {}
+    },
+  },
   extraReducers(builder) {
     builder
       .addCase(getCars.pending, (state, action) => {
@@ -74,7 +100,18 @@ const carSlice = createSlice({
         state.loading = false
         state.error = action.payload.message
       })
+      .addCase(deleteCarById.pending, (state, action) => {
+        state.loading = true
+      })
+      .addCase(deleteCarById.fulfilled, (state, action) => {
+        state.loading = false
+        state.success = true
+      })
+      .addCase(deleteCarById.rejected, (state, action) => {
+        state.loading = false
+        state.error = action.payload.message
+      })
   },
 })
-
+export const { resetCarState } = carSlice.actions
 export default carSlice.reducer

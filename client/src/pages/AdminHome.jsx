@@ -43,7 +43,7 @@ const AdminHome = () => {
       </div>
       {/* {mobile navbar} */}
       <AdminNavbar />
-      <div className="flex md:w-3/4 mt-20 ">
+      <div className="flex md:w-3/4 mt-20 flex-col">
         <Outlet />
       </div>
     </div>

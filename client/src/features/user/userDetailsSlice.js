@@ -38,7 +38,11 @@ export const getUserDetails = createAsyncThunk(
 const adminUserUpdateSlice = createSlice({
   name: 'userDetails',
   initialState,
-  reducers: {},
+  reducers: {
+    resetUserUpdateReset() {
+      return {}
+    },
+  },
   extraReducers(builder) {
     builder
       .addCase(getUserDetails.pending, (state, action) => {
@@ -55,4 +59,5 @@ const adminUserUpdateSlice = createSlice({
   },
 })
 
+export const { resetUserUpdateReset } = adminUserUpdateSlice.actions
 export default adminUserUpdateSlice.reducer

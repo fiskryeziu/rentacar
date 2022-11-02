@@ -35,7 +35,11 @@ export const getAllUsers = createAsyncThunk(
 const userListSlice = createSlice({
   name: 'userList',
   initialState,
-  reducers: {},
+  reducers: {
+    resetGetAllUsers() {
+      return {}
+    },
+  },
   extraReducers(builder) {
     builder
       .addCase(getAllUsers.pending, (state, action) => {
@@ -51,5 +55,5 @@ const userListSlice = createSlice({
       })
   },
 })
-
+export const { resetGetAllUsers } = userListSlice.actions
 export default userListSlice.reducer

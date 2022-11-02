@@ -2,8 +2,15 @@ import React, { useState } from 'react'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
-import { updateUser } from '../features/user/adminUserUpdateSlice'
-import { getUserDetails } from '../features/user/userDetailsSlice'
+import {
+  resetUserUpdate,
+  updateUser,
+} from '../features/user/adminUserUpdateSlice'
+import {
+  getUserDetails,
+  resetUserUpdateReset,
+} from '../features/user/userDetailsSlice'
+import { resetGetAllUsers } from '../features/user/userListSlice'
 
 const EditUser = () => {
   const [formData, setFormData] = useState({
@@ -15,29 +22,37 @@ const EditUser = () => {
   const { name, email, phoneNumber, isAdmin } = formData
   const params = useParams()
   const userId = params.id
+  const navigate = useNavigate()
 
   const dispatch = useDispatch()
   const userAdminUpdate = useSelector((state) => state.userAdminUpdate)
   const { success } = userAdminUpdate
 
   const userDetails = useSelector((state) => state.userDetails)
-  const { user, loading } = userDetails
+  const { user } = userDetails
 
   const userLogin = useSelector((state) => state.userLogin)
   const { userInfo } = userLogin
 
   useEffect(() => {
-    if (!user || user._id !== userId) {
-      dispatch(getUserDetails(userId))
+    if (success) {
+      dispatch(resetUserUpdate())
+      dispatch(resetUserUpdateReset())
+      navigate('/admin/users')
+    } else {
+      if (!user || user._id !== userId || success) {
+        dispatch(getUserDetails(userId))
+      } else {
+        setFormData((prev) => ({
+          ...prev,
+          name: user.name,
+          email: user.email,
+          phoneNumber: user.phoneNumber,
+          isAdmin: user.isAdmin,
+        }))
+      }
     }
-    setFormData((prev) => ({
-      ...prev,
-      name: user.name,
-      email: user.email,
-      phoneNumber: user.phoneNumber,
-      isAdmin: user.isAdmin,
-    }))
-  }, [userId, dispatch, user, userInfo])
+  }, [userId, dispatch, user, userInfo, success, navigate])
 
   const onChange = (e) => {
     if (e.target.type === 'checkbox') {
@@ -52,16 +67,24 @@ const EditUser = () => {
       }))
     }
   }
-  console.log(user)
 
-  const editHandler = () => {
-    dispatch(updateUser({}))
-  }
-  if (loading) {
-    return <h1>loading...</h1>
+  const editHandler = (e) => {
+    e.preventDefault()
+    dispatch(
+      updateUser({
+        id: userId,
+        name,
+        email,
+        phoneNumber,
+        isAdmin,
+      })
+    )
   }
   return (
-    <form className="form-control w-[300px] mx-auto mb-20">
+    <form
+      className="form-control w-[300px] mx-auto mb-20"
+      onSubmit={editHandler}
+    >
       <label htmlFor="name">Name</label>
       <input
         type="text"
@@ -109,9 +132,7 @@ const EditUser = () => {
         placeholder="Enter City"
         className="input input-bordered w-full mb-6"
       /> */}
-      <button className="btn mt-6" onClick={editHandler}>
-        Send
-      </button>
+      <button className="btn mt-6">Send</button>
     </form>
   )
 }

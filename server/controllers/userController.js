@@ -120,13 +120,17 @@ const updateUserById = async (req, res) => {
 }
 //admin only
 const updateUsersById = async (req, res) => {
-  const { name, email, isAdmin, password } = req.body
+  const { name, email, isAdmin, phoneNumber } = req.body
+
   const { id } = req.params
+  console.log(id)
   const user = await User.findById(id)
+  console.log(user)
   if (user) {
     user.name = name || user.name
     user.email = email || user.email
-    user.isAdmin = req.body.isAdmin
+    user.phoneNumber = phoneNumber || user.phoneNumber
+    user.isAdmin = isAdmin
 
     const updatedUser = await user.save()
 

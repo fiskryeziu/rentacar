@@ -1,6 +1,5 @@
 import React from 'react'
 import { useEffect } from 'react'
-import { BsPlusLg } from 'react-icons/bs'
 import { TbCircleCheck, TbCircleX } from 'react-icons/tb'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
@@ -37,19 +36,11 @@ const UsersList = () => {
       dispatch(deleteUser(id))
     }
   }
-  const createHandler = () => {
-    navigate('/admin/users/create')
-  }
   const editHandler = (id) => {
     navigate(`/admin/users/${id}`)
   }
   return (
     <>
-      <div>
-        <button onClick={createHandler} className="btn btn-sm btn-accent mb-6">
-          Add User <BsPlusLg className="ml-2" />
-        </button>
-      </div>
       <div className="overflow-x-auto mb-20">
         <table className="table table-compact w-full z-0">
           <thead>

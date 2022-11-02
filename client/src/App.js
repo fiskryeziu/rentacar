@@ -19,7 +19,6 @@ import AdminHome from './pages/AdminHome'
 import AdminCarLists from './pages/AdminCarLists'
 import UsersList from './pages/UsersList'
 import EditUser from './pages/EditUser'
-import CreateUser from './pages/PostUser'
 import EditCars from './pages/EditCars'
 import CreateCars from './pages/CreateCars'
 
@@ -49,7 +48,6 @@ function App() {
               <Route path="reservations" element={<Reservations />} />
               <Route path="users" element={<UsersList />} />
               <Route path="users/:id" element={<EditUser />} />
-              <Route path="users/create" element={<CreateUser />} />
               <Route path="cars" element={<AdminCarLists />} />
               <Route path="cars/:id" element={<EditCars />} />
               <Route path="cars/create" element={<CreateCars />} />

@@ -13,7 +13,6 @@ export const updateUser = createAsyncThunk(
       const {
         userLogin: { userInfo },
       } = getState()
-      console.log(userInfo)
       const config = {
         headers: {
           'Content-Type': 'application/json',

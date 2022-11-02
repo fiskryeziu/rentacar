@@ -1,6 +1,31 @@
 import React from 'react'
+import { useState } from 'react'
 
 const CreateUser = () => {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phoneNumber: '',
+  })
+  const onChange = (e) => {
+    setFormData((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }))
+  }
+
+  const editHandler = (e) => {
+    e.preventDefault()
+    dispatch(
+      updateUser({
+        id: userId,
+        name,
+        email,
+        phoneNumber,
+        isAdmin,
+      })
+    )
+  }
   return (
     <form className="form-control w-[300px] mx-auto mb-20">
       <label htmlFor="name">Name</label>

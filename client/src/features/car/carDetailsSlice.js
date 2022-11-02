@@ -22,7 +22,11 @@ export const getCarbyId = createAsyncThunk(
 const carDetailsSlice = createSlice({
   name: 'car',
   initialState,
-  reducers: {},
+  reducers: {
+    resetCarDetails(state) {
+      state.car = []
+    },
+  },
   extraReducers(builder) {
     builder
       .addCase(getCarbyId.pending, (state) => {
@@ -38,4 +42,5 @@ const carDetailsSlice = createSlice({
       })
   },
 })
+export const { resetCarDetails } = carDetailsSlice.actions
 export default carDetailsSlice.reducer

@@ -17,12 +17,14 @@ const AdminCarLists = () => {
   const { cars, success } = carsList
 
   const navigate = useNavigate()
+
   useEffect(() => {
     if (userInfo || success) {
       dispatch(resetCarState())
       dispatch(getAllCars())
     }
   }, [dispatch, userInfo, success])
+
   const clickHandler = (id) => {
     if (window.confirm('Are you sure you want to delete?')) {
       dispatch(deleteCarById(id))
@@ -31,6 +33,11 @@ const AdminCarLists = () => {
   const addHandler = () => {
     navigate('/admin/cars/create')
   }
+
+  const editHandler = (id) => {
+    navigate(`/admin/cars/${id}`)
+  }
+
   return (
     <>
       <div>
@@ -48,6 +55,7 @@ const AdminCarLists = () => {
               <th>Name</th>
               <th>Price</th>
               <th>CreatedAt</th>
+              <th></th>
               <th></th>
             </tr>
           </thead>
@@ -68,6 +76,14 @@ const AdminCarLists = () => {
                     Delete
                   </button>
                 </td>
+                <td>
+                  <button
+                    className="btn btn-outline btn-xs btn-warning"
+                    onClick={() => editHandler(car._id)}
+                  >
+                    edit
+                  </button>
+                </td>
               </tr>
             ))}
           </tbody>
@@ -79,6 +95,7 @@ const AdminCarLists = () => {
               <th>Name</th>
               <th>Price</th>
               <th>CreatedAt</th>
+              <th></th>
               <th></th>
             </tr>
           </tfoot>

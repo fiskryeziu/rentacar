@@ -54,5 +54,49 @@ const deleteCarById = async (req, res) => {
     })
   }
 }
+const updateCarById = async (req, res) => {
+  const {
+    name,
+    brand,
+    pricePerDay,
+    transmission,
+    yearModel,
+    seatCapacity,
+    fuelType,
+    images,
+  } = req.body
 
-export { getCars, getCarById, getAllCars, deleteCarById }
+  const { id } = req.params
+
+  const car = await Car.findById(id)
+
+  if (car) {
+    ;(car.name = name || car.name),
+      (car.brand = brand || car.brand),
+      (car.pricePerDay = pricePerDay || car.pricePerDay),
+      (car.transmission = transmission || car.transmission),
+      (car.yearModel = yearModel || car.yearModel),
+      (car.seatCapacity = seatCapacity || car.seatCapacity),
+      (car.fuelType = fuelType || car.fuelType),
+      (car.images = images || car.images)
+
+    const updatedCar = await car.save()
+
+    res.json({
+      _id: updatedCar._id,
+      name: updatedCar.name,
+      brand: updatedCar.brand,
+      pricePerDay: updatedCar.pricePerDay,
+      transmission: updatedCar.transmission,
+      yearModel: updatedCar.yearModel,
+      seatCapacity: updatedCar.seatCapacity,
+      fuelType: updatedCar.fuelType,
+      images: updatedCar.images,
+    })
+  } else {
+    res.status(404)
+    throw new Error('Could not update user!')
+  }
+}
+
+export { getCars, getCarById, getAllCars, deleteCarById, updateCarById }

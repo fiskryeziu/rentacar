@@ -1,6 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit'
 import carDetailsReducer from '../features/car/carDetailsSlice'
 import carReducer from '../features/car/carSlice'
+import carUpdateReducer from '../features/car/carUpdateSlice'
 import reservationApproveReducer from '../features/reservation/reservationApproveSlice'
 import reservationListReducer from '../features/reservation/reservationListSlice'
 import reservationReducer from '../features/reservation/reservationSlice'
@@ -22,6 +23,7 @@ export const store = configureStore({
     userDetails: userDetailsReducer,
     carsList: carReducer,
     carDetails: carDetailsReducer,
+    carUpdate: carUpdateReducer,
     reservationUser: reservationReducer,
     reservationList: reservationListReducer,
     reservationApprove: reservationApproveReducer,

@@ -1,5 +1,6 @@
 import express from 'express'
 import {
+  createCar,
   deleteCarById,
   getAllCars,
   getCarById,
@@ -19,5 +20,7 @@ route.route('/admin/:id').delete(protect, admin, deleteCarById)
 route.route('/:id').get(getCarById)
 
 route.route('/admin/edit/:id').put(protect, admin, updateCarById)
+
+route.route('/admin/create').post(protect, admin, createCar)
 
 export default route

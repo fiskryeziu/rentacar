@@ -1,4 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit'
+import carCreateReducer from '../features/car/carCreateSlice'
 import carDetailsReducer from '../features/car/carDetailsSlice'
 import carReducer from '../features/car/carSlice'
 import carUpdateReducer from '../features/car/carUpdateSlice'
@@ -24,6 +25,7 @@ export const store = configureStore({
     carsList: carReducer,
     carDetails: carDetailsReducer,
     carUpdate: carUpdateReducer,
+    carCreate: carCreateReducer,
     reservationUser: reservationReducer,
     reservationList: reservationListReducer,
     reservationApprove: reservationApproveReducer,

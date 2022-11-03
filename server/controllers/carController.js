@@ -99,4 +99,39 @@ const updateCarById = async (req, res) => {
   }
 }
 
-export { getCars, getCarById, getAllCars, deleteCarById, updateCarById }
+const createCar = async (req, res) => {
+  const {
+    name,
+    brand,
+    pricePerDay,
+    transmission,
+    yearModel,
+    seatCapacity,
+    fuelType,
+    images,
+  } = req.body
+  const car = new Car({
+    user: req.user._id,
+    name,
+    brand,
+    pricePerDay,
+    transmission,
+    yearModel,
+    seatCapacity,
+    fuelType,
+    images,
+  })
+
+  const createdCar = await car.save()
+
+  res.status(201).json(createdCar)
+}
+
+export {
+  getCars,
+  getCarById,
+  getAllCars,
+  deleteCarById,
+  updateCarById,
+  createCar,
+}

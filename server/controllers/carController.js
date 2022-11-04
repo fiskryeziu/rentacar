@@ -3,14 +3,26 @@ import Car from '../models/carModel.js'
 
 const getCars = async (req, res) => {
   const rangeValue = +req.query.rangeValue || 0
+  const page = +req.query.page || 1
+  const carLimit = 2
+
   try {
-    const cars = await Car.find({}).where('pricePerDay').gte(rangeValue)
-    res.status(200).json(cars)
+    const cars = await Car.find({})
+      .limit(carLimit)
+      .where('pricePerDay')
+      .skip(carLimit * (page - 1))
+      .gte(rangeValue)
+
+    const carCount = await Car.countDocuments()
+    res.status(200).json({
+      cars,
+      page,
+      pages: Math.ceil(carCount / carLimit),
+    })
   } catch (error) {
     res.status(500).json({
-      success: false,
-      message: 'Something went wrong',
-      error: err.message,
+      errorMsg: 'Something went wrong',
+      message: error.message,
     })
   }
 }

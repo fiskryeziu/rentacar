@@ -83,7 +83,9 @@ const carSlice = createSlice({
       })
       .addCase(getCars.fulfilled, (state, action) => {
         state.loading = false
-        state.cars = action.payload
+        state.cars = action.payload.cars
+        state.page = action.payload.page
+        state.pages = action.payload.pages
       })
       .addCase(getCars.rejected, (state, action) => {
         state.loading = false

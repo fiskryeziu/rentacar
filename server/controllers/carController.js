@@ -3,20 +3,20 @@ import Car from '../models/carModel.js'
 
 const getCars = async (req, res) => {
   const rangeValue = +req.query.rangeValue || 0
-  const page = +req.query.page || 1
+  const pageNumber = +req.query.pageNumber || 1
   const carLimit = 2
-
   try {
     const cars = await Car.find({})
       .limit(carLimit)
       .where('pricePerDay')
-      .skip(carLimit * (page - 1))
+      .skip(carLimit * (pageNumber - 1))
       .gte(rangeValue)
 
     const carCount = await Car.countDocuments()
+
     res.status(200).json({
       cars,
-      page,
+      page: pageNumber,
       pages: Math.ceil(carCount / carLimit),
     })
   } catch (error) {

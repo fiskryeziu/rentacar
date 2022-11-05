@@ -1,21 +1,8 @@
 import React from 'react'
-import { useEffect } from 'react'
-import { useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { Navigate, useNavigate, useParams } from 'react-router-dom'
-import { getCars } from '../features/car/carSlice'
+import { useNavigate } from 'react-router-dom'
 
-const Range = ({ min, max }) => {
-  const [value, setValue] = useState(0)
-  const dispatch = useDispatch()
-  const params = useParams()
-
-  const rangeValue = params.rangeValue || 0
-
+const Range = ({ min, max, value, setValue }) => {
   const navigate = useNavigate()
-  useEffect(() => {
-    dispatch(getCars(rangeValue))
-  }, [dispatch, rangeValue])
 
   const filterHandler = () => {
     if (value.trim()) {

@@ -1,18 +1,18 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import CarItem from './CarItem'
-import { useSelector, useDispatch } from 'react-redux'
-import { useEffect } from 'react'
-import { getCars } from '../features/car/carSlice'
 import Spinner from './Spinner'
 import Alert from './Alert'
+import { getCars } from '../features/car/carSlice'
+import { useDispatch, useSelector } from 'react-redux'
 
 const CarLists = () => {
-  const carsList = useSelector((state) => state.carsList)
-  const { cars, loading, error } = carsList
   const dispatch = useDispatch()
+  const carsList = useSelector((state) => state.carsList)
+
+  const { cars, loading, error } = carsList
 
   useEffect(() => {
-    dispatch(getCars())
+    dispatch(getCars({}))
   }, [dispatch])
 
   if (loading) {

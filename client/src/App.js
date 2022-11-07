@@ -21,6 +21,8 @@ import UsersList from './pages/UsersList'
 import EditUser from './pages/EditUser'
 import EditCars from './pages/EditCars'
 import CreateCars from './pages/CreateCars'
+import StripePay from './components/StripePay'
+import StripeContainer from './components/StripeContainer'
 
 function App() {
   return (
@@ -47,6 +49,10 @@ function App() {
               <Route path="profile" element={<UserProfile />} />
               <Route path="reservations" element={<UserReservations />} />
             </Route>
+            <Route
+              path="/reservation/payment/:id"
+              element={<StripeContainer />}
+            />
           </Route>
           <Route element={<ProtectedRoute />}>
             <Route path="admin" element={<AdminHome />}>

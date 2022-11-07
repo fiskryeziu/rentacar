@@ -1,5 +1,6 @@
 import React from 'react'
 import { format, parseISO } from 'date-fns'
+import { Link } from 'react-router-dom'
 
 const ReservationCard = ({ reservation }) => {
   function formatDate(date) {
@@ -32,9 +33,12 @@ const ReservationCard = ({ reservation }) => {
         </div>
         <div className="card-actions justify-end">
           {reservation.isApproved && !reservation.isPaid && (
-            <button className="btn  btn-secondary btn-sm md:btn-md">
-              Buy Now
-            </button>
+            <Link
+              className="btn  btn-secondary btn-sm md:btn-md"
+              to={`/reservation/payment/${reservation._id}`}
+            >
+              Pay
+            </Link>
           )}
         </div>
       </div>

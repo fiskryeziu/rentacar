@@ -8,6 +8,7 @@ import carRoute from './routes/carRoute.js'
 import userRoute from './routes/userRoute.js'
 import uploadRoute from './routes/uploadRoute.js'
 import reservationRoute from './routes/reservationRoute.js'
+import stripeRoute from './routes/stripeRoute.js'
 
 config()
 connectDb()
@@ -24,6 +25,7 @@ app.use('/api/user', userRoute)
 app.use('/api/cars', carRoute)
 app.use('/api/reservation', reservationRoute)
 app.use('/api/upload', uploadRoute)
+app.use('/api/stripe', stripeRoute)
 
 app.use(notFound)
 app.use(errorHandler)

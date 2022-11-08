@@ -35,7 +35,43 @@ const createReservation = async (req, res) => {
 }
 
 //user
-const getReservationsById = async (req, res) => {
+const reservationById = async (req, res) => {
+  const reservation = await Reservation.findById(req.params.id)
+  console.log(reservation)
+  try {
+    if (reservation) {
+      res.json(reservation)
+    } else {
+      res.status(400)
+      throw new Error('No Reservation')
+    }
+  } catch (error) {
+    res.status(400)
+    res.json({ message: error.message })
+  }
+}
+//user
+const reservationToPaid = async (req, res) => {
+  const reservation = await Reservation.findById(req.params.id)
+  console.log(reservation)
+  try {
+    if (reservation) {
+      reservation.isPaid = true
+      reservation.paidAt = Date.now()
+      await reservation.save()
+      res.json(reservation)
+    } else {
+      res.status(400)
+      throw new Error('No Reservation')
+    }
+  } catch (error) {
+    res.status(400)
+    res.json({ message: error.message })
+  }
+}
+
+//user
+const getReservationsByUserId = async (req, res) => {
   const reservation = await Reservation.find({ user: req.user._id })
   try {
     if (reservation && reservation.length > 0) {
@@ -92,5 +128,7 @@ export {
   getAllReservations,
   approveReservation,
   deleteReservation,
-  getReservationsById,
+  getReservationsByUserId,
+  reservationToPaid,
+  reservationById,
 }

@@ -4,8 +4,10 @@ import carDetailsReducer from '../features/car/carDetailsSlice'
 import carReducer from '../features/car/carSlice'
 import carUpdateReducer from '../features/car/carUpdateSlice'
 import reservationApproveReducer from '../features/reservation/reservationApproveSlice'
+import reservationDetailsReducer from '../features/reservation/reservationDetailsSlice'
 import reservationListReducer from '../features/reservation/reservationListSlice'
 import reservationReducer from '../features/reservation/reservationSlice'
+import reservationToPaidReducer from '../features/reservation/reservationToPaidSlice'
 import adminUserDeleteReducer from '../features/user/adminUserDeleteSlice'
 import adminUserUpdateReducer from '../features/user/adminUserUpdateSlice'
 import userDetailsReducer from '../features/user/userDetailsSlice'
@@ -29,5 +31,7 @@ export const store = configureStore({
     reservationUser: reservationReducer,
     reservationList: reservationListReducer,
     reservationApprove: reservationApproveReducer,
+    reservationPaid: reservationToPaidReducer,
+    reservationDetails: reservationDetailsReducer,
   },
 })

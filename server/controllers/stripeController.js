@@ -1,27 +1,24 @@
-import Stripe from 'stripe'
-const stripe = new Stripe(process.env.STRIPE_SECRET_TEST)
+import { stripe } from '../server.js'
 
 const stripePayment = async (req, res) => {
-  console.log('stripe-routes.js 9 | route reached', req.body)
   let { amount, id } = req.body
-  console.log('stripe-routes.js 10 | amount and id', amount, id)
   try {
     const payment = await stripe.paymentIntents.create({
-      amount: amount,
+      amount,
       currency: 'USD',
-      description: 'Your Company Description',
+      description: 'Rent a Car',
       payment_method: id,
       confirm: true,
     })
-    console.log('stripe-routes.js 19 | payment', payment)
+    console.log('Payment', payment)
     res.json({
-      message: 'Payment Successful',
+      message: 'Payment successful',
       success: true,
     })
   } catch (error) {
-    console.log('stripe-routes.js 17 | error', error)
+    console.log('Error', error)
     res.json({
-      message: 'Payment Failed',
+      message: 'Payment failed',
       success: false,
     })
   }

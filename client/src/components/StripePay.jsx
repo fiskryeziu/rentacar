@@ -1,6 +1,15 @@
-import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js'
 import { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js'
+import { useParams } from 'react-router-dom'
 import API from '../api/api'
+import Alert from './Alert'
+import { useEffect } from 'react'
+import {
+  reservationToPaid,
+  resetPaidReservation,
+} from '../features/reservation/reservationToPaidSlice'
+import { getReservation } from '../features/reservation/reservationDetailsSlice'
 
 const CARD_OPTIONS = {
   iconStyle: 'solid',
@@ -22,28 +31,56 @@ const CARD_OPTIONS = {
   },
 }
 const StripePay = () => {
-  const [success, setSuccess] = useState(false)
+  const [successPay, setSuccessPay] = useState(false)
   const stripe = useStripe()
   const elements = useElements()
+  const amount = 25
+
+  const dispatch = useDispatch()
+  const params = useParams()
+  const reservationId = params.id
+
+  const reservationPaid = useSelector((state) => state.reservationPaid)
+  const { success } = reservationPaid
+
+  const reservationDetails = useSelector((state) => state.reservationDetails)
+  const { reservation } = reservationDetails
+
+  const userLogin = useSelector((state) => state.userLogin)
+  const { userInfo } = userLogin
+
+  useEffect(() => {
+    if (!reservation || reservation._id !== reservationId) {
+      dispatch(getReservation(reservationId))
+    }
+    if (successPay) {
+      //dispatch reservation to paid
+      dispatch(reservationToPaid(reservationId))
+    }
+  }, [dispatch, reservationId, successPay, reservation])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     const { error, paymentMethod } = await stripe.createPaymentMethod({
       type: 'card',
       card: elements.getElement(CardElement),
+      billing_details: {
+        name: userInfo.name,
+        email: userInfo.email,
+      },
     })
 
     if (!error) {
       try {
         const { id } = paymentMethod
         const response = await API.post('/api/stripe/payment', {
-          amount: 1000,
+          amount: Math.round(amount * 100),
           id,
         })
 
         if (response.data.success) {
           console.log('Successful payment')
-          setSuccess(true)
+          setSuccessPay(true)
         }
       } catch (error) {
         console.log('Error', error)
@@ -55,7 +92,7 @@ const StripePay = () => {
 
   return (
     <>
-      {!success ? (
+      {!reservation?.isPaid ? (
         <div className="max-w-md w-full mx-auto mt-20">
           <form onSubmit={handleSubmit}>
             <CardElement options={CARD_OPTIONS} />
@@ -63,8 +100,8 @@ const StripePay = () => {
           </form>
         </div>
       ) : (
-        <div>
-          <h2>success</h2>
+        <div className="max-w-md w-full mx-auto mt-20">
+          <Alert variant="alert-success" message="Successful payment" />
         </div>
       )}
     </>

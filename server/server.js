@@ -9,10 +9,12 @@ import userRoute from './routes/userRoute.js'
 import uploadRoute from './routes/uploadRoute.js'
 import reservationRoute from './routes/reservationRoute.js'
 import stripeRoute from './routes/stripeRoute.js'
+import Stripe from 'stripe'
 
 config()
 connectDb()
 
+export const stripe = Stripe(process.env.STRIPE_SECRET_TEST)
 const app = express()
 const port = process.env.PORT || 5000
 

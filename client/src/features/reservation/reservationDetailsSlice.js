@@ -37,7 +37,7 @@ const reservationDetailsSlice = createSlice({
   initialState,
   reducers: {
     resetDetailsReservation(state, action) {
-      state.reservation = {}
+      return initialState
     },
   },
   extraReducers(builder) {

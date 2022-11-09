@@ -61,7 +61,7 @@ const StripePay = () => {
     }
     if (!reservation || reservation._id !== reservationId || successPaid) {
       dispatch(resetPaidReservation())
-      // dispatch(resetDetailsReservation())
+      dispatch(resetDetailsReservation())
       dispatch(getReservation(reservationId))
     } else {
       if (successPay) {

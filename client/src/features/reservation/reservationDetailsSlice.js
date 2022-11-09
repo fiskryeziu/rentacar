@@ -3,7 +3,7 @@ import API from '../../api/api'
 
 const initialState = {
   loading: false,
-  reservation: [],
+  reservation: {},
   error: '',
 }
 
@@ -36,8 +36,8 @@ const reservationDetailsSlice = createSlice({
   name: 'reservationDetails',
   initialState,
   reducers: {
-    resetDetailsReservation() {
-      return { initialState }
+    resetDetailsReservation(state, action) {
+      state.reservation = {}
     },
   },
   extraReducers(builder) {

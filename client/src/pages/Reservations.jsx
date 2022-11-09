@@ -7,8 +7,15 @@ import {
   reservationToApprove,
   resetApproveReservation,
 } from '../features/reservation/reservationApproveSlice'
+import { useState } from 'react'
+import { compareAsc, format, parseISO } from 'date-fns'
+import {
+  deleteReservation,
+  resetReservationDelete,
+} from '../features/reservation/reservationDeleteSlice'
 
 const Reservations = () => {
+  const [todayDate, setTodayDate] = useState(new Date())
   const dispatch = useDispatch()
 
   const userLogin = useSelector((state) => state.userLogin)
@@ -19,15 +26,38 @@ const Reservations = () => {
 
   const reservationApprove = useSelector((state) => state.reservationApprove)
   const { success } = reservationApprove
+
+  const reservationDelete = useSelector((state) => state.reservationDelete)
+  const { success: successDelete } = reservationDelete
+
   useEffect(() => {
-    if (userInfo || success) {
+    if (userInfo || success || successDelete) {
+      dispatch(resetReservationDelete())
       dispatch(resetApproveReservation())
       dispatch(getAllReservations())
     }
-  }, [dispatch, userInfo, success])
+  }, [dispatch, userInfo, success, successDelete])
+
+  const approveHandler = (id) => {
+    dispatch(reservationToApprove(id))
+  }
 
   const deleteHandler = (id) => {
-    dispatch(reservationToApprove(id))
+    //delete resevation
+    dispatch(deleteReservation(id))
+    console.log('Reservation Deleted')
+  }
+
+  // (todayDate,toDate)
+  const result = (date1, date2) => {
+    if (compareAsc(date1, new Date(date2)) === 1) {
+      return true
+    } else {
+      return false
+    }
+  }
+  function formatDate(date) {
+    return format(parseISO(date), 'dd-MM-yyyy')
   }
   return (
     <div className="overflow-x-auto mb-20">
@@ -40,6 +70,7 @@ const Reservations = () => {
             <th>Cost</th>
             <th>Name</th>
             <th>Phone</th>
+            <th>To Date</th>
             <th>Paid</th>
             <th>Approved</th>
             <th></th>
@@ -55,6 +86,7 @@ const Reservations = () => {
                 <td>{reservation.totalCost}</td>
                 <td>{reservation.user.name}</td>
                 <td>{reservation.user.phoneNumber}</td>
+                <td>{formatDate(reservation.toDate)}</td>
                 <td>
                   {reservation.isPaid ? (
                     <TbCircleCheck className="text-2xl text-success" />
@@ -73,9 +105,17 @@ const Reservations = () => {
                   {!reservation.isApproved && (
                     <button
                       className="btn btn-outline btn-xs btn-warning"
-                      onClick={() => deleteHandler(reservation._id)}
+                      onClick={() => approveHandler(reservation._id)}
                     >
                       Approve
+                    </button>
+                  )}
+                  {result(todayDate, reservation.toDate) && (
+                    <button
+                      className="btn btn-outline btn-xs btn-error"
+                      onClick={() => deleteHandler(reservation._id)}
+                    >
+                      delete
                     </button>
                   )}
                 </td>
@@ -90,6 +130,7 @@ const Reservations = () => {
             <th>Cost</th>
             <th>Name</th>
             <th>Phone</th>
+            <th>To Date</th>
             <th>Paid</th>
             <th>Approved</th>
             <th></th>

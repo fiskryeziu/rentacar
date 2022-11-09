@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js'
-import { useParams } from 'react-router-dom'
+import { Navigate, useNavigate, useParams } from 'react-router-dom'
 import API from '../api/api'
 import Alert from './Alert'
 import { useEffect } from 'react'
@@ -9,7 +9,11 @@ import {
   reservationToPaid,
   resetPaidReservation,
 } from '../features/reservation/reservationToPaidSlice'
-import { getReservation } from '../features/reservation/reservationDetailsSlice'
+import {
+  getReservation,
+  resetDetailsReservation,
+} from '../features/reservation/reservationDetailsSlice'
+import Spinner from './Spinner'
 
 const CARD_OPTIONS = {
   iconStyle: 'solid',
@@ -32,16 +36,18 @@ const CARD_OPTIONS = {
 }
 const StripePay = () => {
   const [successPay, setSuccessPay] = useState(false)
+  const [loading, setLoading] = useState(false)
   const stripe = useStripe()
   const elements = useElements()
   const amount = 25
 
   const dispatch = useDispatch()
   const params = useParams()
+  const navigate = useNavigate()
   const reservationId = params.id
 
   const reservationPaid = useSelector((state) => state.reservationPaid)
-  const { success } = reservationPaid
+  const { success: successPaid } = reservationPaid
 
   const reservationDetails = useSelector((state) => state.reservationDetails)
   const { reservation } = reservationDetails
@@ -50,14 +56,30 @@ const StripePay = () => {
   const { userInfo } = userLogin
 
   useEffect(() => {
-    if (!reservation || reservation._id !== reservationId) {
+    if (!userInfo) {
+      navigate('/sign-in')
+    }
+    if (!reservation || reservation._id !== reservationId || successPaid) {
+      dispatch(resetPaidReservation())
+      // dispatch(resetDetailsReservation())
       dispatch(getReservation(reservationId))
+    } else {
+      if (successPay) {
+        //dispatch reservation to paid
+        dispatch(reservationToPaid(reservationId))
+        setLoading(false)
+        setSuccessPay(false)
+      }
     }
-    if (successPay) {
-      //dispatch reservation to paid
-      dispatch(reservationToPaid(reservationId))
-    }
-  }, [dispatch, reservationId, successPay, reservation])
+  }, [
+    dispatch,
+    reservationId,
+    successPay,
+    reservation,
+    navigate,
+    userInfo,
+    successPaid,
+  ])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -71,12 +93,23 @@ const StripePay = () => {
     })
 
     if (!error) {
+      setLoading(true)
       try {
+        const config = {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${userInfo.token}`,
+          },
+        }
         const { id } = paymentMethod
-        const response = await API.post('/api/stripe/payment', {
-          amount: Math.round(amount * 100),
-          id,
-        })
+        const response = await API.post(
+          '/api/stripe/payment',
+          {
+            amount: Math.round(amount * 100),
+            id,
+          },
+          config
+        )
 
         if (response.data.success) {
           console.log('Successful payment')
@@ -89,7 +122,9 @@ const StripePay = () => {
       console.log(error.message)
     }
   }
-
+  if (loading) {
+    return <Spinner />
+  }
   return (
     <>
       {!reservation?.isPaid ? (

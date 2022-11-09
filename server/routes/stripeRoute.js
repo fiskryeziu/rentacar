@@ -4,6 +4,6 @@ import { protect } from '../middlewares/authMiddleware.js'
 
 const router = express.Router()
 
-router.route('/payment').post(stripePayment)
+router.route('/payment').post(protect, stripePayment)
 
 export default router

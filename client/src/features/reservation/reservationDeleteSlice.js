@@ -2,11 +2,13 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import API from '../../api/api'
 
 const initialState = {
+  loading: false,
   success: false,
+  error: '',
 }
 
-export const reservationToPaid = createAsyncThunk(
-  'reservationPaid/reservationToPaid',
+export const deleteReservation = createAsyncThunk(
+  'reservationDelete/deleteReservation',
   async (id, { rejectWithValue, getState }) => {
     try {
       const {
@@ -18,7 +20,7 @@ export const reservationToPaid = createAsyncThunk(
           Authorization: `Bearer ${userInfo.token}`,
         },
       }
-      const { data } = await API.put(`api/reservation/${id}/paid`, {}, config)
+      const { data } = await API.delete(`api/reservation/${id}`, config)
 
       return data
     } catch (error) {
@@ -30,28 +32,29 @@ export const reservationToPaid = createAsyncThunk(
   }
 )
 
-const reservationToPaidSlice = createSlice({
-  name: 'reservationPaid',
+const reservationDeleteSlice = createSlice({
+  name: 'reservationDelete',
   initialState,
   reducers: {
-    resetPaidReservation(state, action) {
-      state.success = false
+    resetReservationDelete() {
+      return initialState
     },
   },
   extraReducers(builder) {
     builder
-      .addCase(reservationToPaid.pending, (state, action) => {
-        state.success = false
+      .addCase(deleteReservation.pending, (state, action) => {
+        state.loading = true
       })
-      .addCase(reservationToPaid.fulfilled, (state, action) => {
+      .addCase(deleteReservation.fulfilled, (state, action) => {
+        state.loading = false
         state.success = true
       })
-      .addCase(reservationToPaid.rejected, (state, action) => {
-        state.success = false
+      .addCase(deleteReservation.rejected, (state, action) => {
+        state.loading = false
         state.error = action.payload.message
       })
   },
 })
 
-export const { resetPaidReservation } = reservationToPaidSlice.actions
-export default reservationToPaidSlice.reducer
+export const { resetReservationDelete } = reservationDeleteSlice.actions
+export default reservationDeleteSlice.reducer

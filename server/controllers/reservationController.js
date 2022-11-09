@@ -53,7 +53,6 @@ const reservationById = async (req, res) => {
 //user
 const reservationToPaid = async (req, res) => {
   const reservation = await Reservation.findById(req.params.id)
-  console.log(reservation)
   try {
     if (reservation) {
       reservation.isPaid = true
@@ -116,6 +115,10 @@ const deleteReservation = async (req, res) => {
   const { id } = req.params
   const reservation = await Reservation.findById(id)
   if (reservation) {
+    const car = await Car.findById(reservation.reservationItem.car)
+    car.isReserved = false
+    await car.save()
+
     await reservation.remove()
     res.status(200).json('Reservation deleted')
   } else {

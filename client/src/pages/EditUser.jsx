@@ -10,7 +10,6 @@ import {
   getUserDetails,
   resetUserUpdateReset,
 } from '../features/user/userDetailsSlice'
-import { resetGetAllUsers } from '../features/user/userListSlice'
 
 const EditUser = () => {
   const [formData, setFormData] = useState({

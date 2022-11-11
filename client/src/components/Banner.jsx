@@ -1,11 +1,12 @@
 import React from 'react'
+import banner from '../assets/images/homephoto.jpg'
 
 const Banner = () => {
   return (
     <div
       className="hero min-h-screen"
       style={{
-        backgroundImage: `url("https://images.pexels.com/photos/120049/pexels-photo-120049.jpeg?cs=srgb&dl=pexels-mike-b-120049.jpg&fm=jpg")`,
+        backgroundImage: `url(${banner})`,
       }}
     >
       <div className="hero-overlay bg-opacity-70"></div>
@@ -17,7 +18,7 @@ const Banner = () => {
             excepturi exercitationem quasi. In deleniti eaque aut repudiandae et
             a id nisi.
           </p>
-          <button className="btn btn-primary">Get Started</button>
+          <button className="btn btn-primary opacity-50">Get Started</button>
         </div>
       </div>
     </div>

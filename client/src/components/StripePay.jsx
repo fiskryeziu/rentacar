@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js'
-import { Navigate, useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import API from '../api/api'
 import Alert from './Alert'
 import { useEffect } from 'react'

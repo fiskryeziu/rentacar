@@ -29,9 +29,11 @@ const Cars = () => {
       <div className="w-full flex flex-col justify-between md:flex-row">
         <Range min={0} max={1000} value={value} setValue={setValue} />
 
-        <div className="md:w-3/4 flex flex-col items-center">
+        <div className="w-full">
           <CarLists />
-          <Pagination value={value} pages={pages} page={page} cars={cars} />
+          <div className="flex justify-center items-center ">
+            <Pagination value={value} pages={pages} page={page} cars={cars} />
+          </div>
         </div>
       </div>
       <Service />

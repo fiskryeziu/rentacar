@@ -51,7 +51,7 @@ const CarDetails = () => {
 
   const reserveHandler = () => {
     const diff = dateDifference(startDate, endDate)
-    if (diff === 0) {
+    if (diff <= 0) {
       alert('min 1 day difference')
     } else {
       const totalCost = diff * car.pricePerDay

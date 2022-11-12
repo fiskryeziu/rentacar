@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { Link, useNavigate } from 'react-router-dom'
+import { logout } from '../features/user/userSlice'
 
 const AdminNavbar = () => {
   const [toggle, setToggle] = useState(false)
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   useEffect(() => {
     toggle
@@ -12,6 +16,10 @@ const AdminNavbar = () => {
 
   const toggleHandler = () => {
     setToggle(!toggle)
+  }
+  const logoutHandler = () => {
+    dispatch(logout())
+    navigate('/sign-in')
   }
   return (
     <div className="w-full bg-neutral p-2 md:hidden">
@@ -55,7 +63,7 @@ const AdminNavbar = () => {
         <Link to="users" onClick={toggleHandler}>
           Users
         </Link>
-        <p onClick={toggleHandler}>Sign Out</p>
+        <button onClick={logoutHandler}>Sign Out</button>
       </div>
     </div>
   )

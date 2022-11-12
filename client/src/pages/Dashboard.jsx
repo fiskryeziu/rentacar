@@ -23,7 +23,6 @@ const Dashboard = () => {
     dispatch(getAllCars())
   }, [dispatch])
 
-  console.log(!reservations && 0)
   return (
     <div>
       <div className="stats stats-vertical md:stats-horizontal shadow mx-auto">

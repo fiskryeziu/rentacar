@@ -50,7 +50,7 @@ const StripePay = () => {
   const { success: successPaid } = reservationPaid
 
   const reservationDetails = useSelector((state) => state.reservationDetails)
-  const { reservation } = reservationDetails
+  const { reservation, loading: loadingDetails } = reservationDetails
 
   const userLogin = useSelector((state) => state.userLogin)
   const { userInfo } = userLogin
@@ -66,9 +66,9 @@ const StripePay = () => {
     } else {
       if (successPay) {
         //dispatch reservation to paid
+        setSuccessPay(false)
         dispatch(reservationToPaid(reservationId))
         setLoading(false)
-        setSuccessPay(false)
       }
     }
   }, [
@@ -127,7 +127,9 @@ const StripePay = () => {
   }
   return (
     <>
-      {!reservation?.isPaid ? (
+      {loadingDetails ? (
+        <Spinner />
+      ) : reservation && !reservation.isPaid ? (
         <div className="max-w-md w-full mx-auto mt-20">
           <form onSubmit={handleSubmit}>
             <CardElement options={CARD_OPTIONS} />

@@ -101,7 +101,21 @@ const CreateCars = () => {
       })
     )
   }
-
+  const checkStates = () => {
+    if (
+      name.length > 0 &&
+      brand.length > 0 &&
+      pricePerDay.length > 0 &&
+      transmission.length > 0 &&
+      yearModel.length > 0 &&
+      seatCapacity.length > 0 &&
+      fuelType.length > 0
+    ) {
+      return false
+    } else {
+      return true
+    }
+  }
   return (
     <form
       className="form-control w-[300px] mx-auto mb-20"
@@ -172,21 +186,29 @@ const CreateCars = () => {
         onChange={(e) => setFiles(e.target.files)}
         multiple
         className="file-input file-input-bordered file-input-accent w-full max-w-xs"
+        disabled={checkStates()}
       />
       <div className="mt-2 flex row items-center">
         {uploading ? (
           <FaCheckCircle className="text-success text-3xl" />
         ) : (
-          <p
+          <button
             onClick={() => uploadFileHandler()}
-            className="flex gap-2 items-center btn-sm btn-accent rounded-lg"
+            className={`flex gap-2 items-center btn-sm  rounded-lg ${
+              files.length === 0 ? 'btn-disabled' : 'btn-accent'
+            }`}
           >
             Upload images <FaUpload />
-          </p>
+          </button>
         )}
       </div>
 
-      <button className="btn mt-6">Send</button>
+      <button
+        className={`btn mt-6 ${uploading ? '' : 'btn-disabled'}`}
+        disabled={uploading}
+      >
+        Send
+      </button>
     </form>
   )
 }

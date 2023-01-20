@@ -3,18 +3,12 @@ import express from 'express'
 import multer from 'multer'
 const router = express.Router()
 import { v4 as uuidv4 } from 'uuid'
+import { s3Uploadv2 } from '../middlewares/s3Service.js'
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, './uploads')
-  },
-  filename: (req, file, cb) => {
-    const fileName = file.originalname.toLowerCase().split(' ').join('-')
-    cb(null, uuidv4() + '-' + fileName)
-  },
-})
+const storage = multer.memoryStorage()
+
 const upload = multer({
-  storage: storage,
+  storage,
   fileFilter: (req, file, cb) => {
     if (
       file.mimetype == 'image/png' ||
@@ -29,18 +23,14 @@ const upload = multer({
   },
 })
 
-router.post('/', upload.array('images', 5), (req, res) => {
-  // console.log(req.files[0])
-  function getPath() {
-    let path = []
-
-    const url = req.protocol + '://' + req.get('host')
-    for (let file of req.files) {
-      path.push(`${url}/uploads/${file.filename}`)
-    }
-    return path
+router.post('/', upload.array('images', 5), async (req, res) => {
+  try {
+    const results = await s3Uploadv2(req.files)
+    console.log('upload' + results)
+    res.json({ status: 'success', results })
+  } catch (error) {
+    console.log(error)
   }
-  res.send(getPath())
 })
 
 export default router

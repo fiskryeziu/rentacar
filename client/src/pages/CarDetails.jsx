@@ -65,6 +65,7 @@ const CarDetails = () => {
       )
     }
   }
+  console.log(car.images)
   if (loading) {
     return <Spinner />
   }

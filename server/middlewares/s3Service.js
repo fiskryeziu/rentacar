@@ -1,15 +1,28 @@
 import multer from 'multer'
 import { v4 as uuidv4 } from 'uuid'
-import AWS from 'aws-sdk'
 import multerS3 from 'multer-s3'
 import { config } from 'dotenv'
+import AWS from 'aws-sdk'
+import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3'
 
 config()
 
 export const s3Uploadv2 = async (files) => {
   const s3 = new AWS.S3()
 
-  console.log('files' + files)
+  const params = files.map((file) => {
+    return {
+      Bucket: process.env.BUCKET_NAME,
+      Key: `uploads/${file.originalname}`,
+      Body: file.buffer,
+    }
+  })
+
+  return await Promise.all(params.map((param) => s3.upload(param).promise()))
+}
+
+export const s3Uploadv3 = async (files) => {
+  const s3client = new S3Client()
 
   const params = files.map((file) => {
     return {
@@ -19,7 +32,9 @@ export const s3Uploadv2 = async (files) => {
     }
   })
 
-  await Promise.all(params.map((param) => s3.upload(param).promise()))
+  return await Promise.all(
+    params.map((param) => s3client.send(new PutObjectCommand(param)))
+  )
 }
 
 // AWS.config.update({

@@ -3,7 +3,7 @@ import express from 'express'
 import multer from 'multer'
 const router = express.Router()
 import { v4 as uuidv4 } from 'uuid'
-import { s3Uploadv2 } from '../middlewares/s3Service.js'
+import { s3Uploadv2, s3Uploadv3 } from '../middlewares/s3Service.js'
 
 const storage = multer.memoryStorage()
 
@@ -26,10 +26,14 @@ const upload = multer({
 router.post('/', upload.array('images', 5), async (req, res) => {
   try {
     const results = await s3Uploadv2(req.files)
-    console.log('upload' + results)
-    res.json({ status: 'success', results })
+
+    res.json(results)
   } catch (error) {
-    console.log(error)
+    res.status(400).json({
+      success: false,
+      message: 'Something went wrong',
+      error: error.message,
+    })
   }
 })
 

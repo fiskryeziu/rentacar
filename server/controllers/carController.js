@@ -122,21 +122,33 @@ const createCar = async (req, res) => {
     fuelType,
     images,
   } = req.body
-  const car = new Car({
-    user: req.user._id,
-    name,
-    brand,
-    pricePerDay,
-    transmission,
-    yearModel,
-    seatCapacity,
-    fuelType,
-    images,
-  })
+  let urlImages = []
+  for (let index = 0; index < images.length; index++) {
+    const element = images[index].Location
+    urlImages.push(element)
+  }
+  if (urlImages.length > 0) {
+    const car = new Car({
+      user: req.user._id,
+      name,
+      brand,
+      pricePerDay,
+      transmission,
+      yearModel,
+      seatCapacity,
+      fuelType,
+      images: urlImages,
+    })
 
-  const createdCar = await car.save()
-
-  res.status(201).json(createdCar)
+    const createdCar = await car.save()
+    res.status(201).json(createdCar)
+  } else {
+    res.status(400).json({
+      success: false,
+      message: 'Something went wrong',
+      error: 'Something went wrong',
+    })
+  }
 }
 
 export {

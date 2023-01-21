@@ -8,9 +8,12 @@ import { resetCarDetails } from '../features/car/carDetailsSlice'
 import { resetCarState } from '../features/car/carSlice'
 import { FaCheckCircle, FaUpload } from 'react-icons/fa'
 import { createCar, resetCarCreate } from '../features/car/carCreateSlice'
+import Alert from '../components/Alert'
 
 const CreateCars = () => {
-  const [uploading, setUploading] = useState(false)
+  const [uploading, setUploading] = useState(null)
+  const [error, setError] = useState(false)
+  const [message, setMessage] = useState('')
   const [formData, setFormData] = useState({
     name: '',
     brand: '',
@@ -50,6 +53,11 @@ const CreateCars = () => {
     }
   }, [dispatch, success, navigate])
 
+  useEffect(() => {
+    setError(false)
+    setMessage('')
+  }, [images])
+
   const uploadFileHandler = async () => {
     const MAX_LENGTH = 5
     if (Array.from(files).length > MAX_LENGTH) {
@@ -75,7 +83,8 @@ const CreateCars = () => {
       setUploading(true)
     } catch (error) {
       setUploading(false)
-      console.log(error)
+      setError(true)
+      setMessage(error.response.data.error)
     }
   }
   const onChange = (e) => {
@@ -188,14 +197,15 @@ const CreateCars = () => {
         className="file-input file-input-bordered file-input-accent w-full max-w-xs"
         disabled={checkStates()}
       />
-      <div className="mt-2 flex row items-center">
+      <div className="mt-2 flex-col space-y-2 items-center">
+        {error && <Alert variant="alert-error" message={message} />}
         {uploading ? (
           <FaCheckCircle className="text-success text-3xl" />
         ) : (
           <button
             onClick={() => uploadFileHandler()}
             className={`flex gap-2 items-center btn-sm  rounded-lg ${
-              files.length === 0 ? 'btn-disabled' : 'btn-accent'
+              files.length === 0 || error ? 'btn-disabled' : 'btn-accent'
             }`}
           >
             Upload images <FaUpload />
@@ -203,10 +213,7 @@ const CreateCars = () => {
         )}
       </div>
 
-      <button
-        className={`btn mt-6 ${uploading ? '' : 'btn-disabled'}`}
-        disabled={uploading}
-      >
+      <button className={`btn mt-6 ${uploading ? '' : 'btn-disabled'}`}>
         Send
       </button>
     </form>

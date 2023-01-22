@@ -85,6 +85,10 @@ const CreateCars = () => {
       setUploading(false)
       setError(true)
       setMessage(error.response.data.error)
+      setTimeout(() => {
+        setError(false)
+        setMessage('')
+      }, 1500)
     }
   }
   const onChange = (e) => {

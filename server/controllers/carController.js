@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+import { s3Delete } from '../middlewares/s3Service.js'
 import Car from '../models/carModel.js'
 
 const getCars = async (req, res) => {
@@ -55,6 +56,7 @@ const deleteCarById = async (req, res) => {
   try {
     const car = await Car.findById(id)
     if (car) {
+      s3Delete(car.images)
       await car.remove()
       res.status(200).json('Car deleted')
     }
@@ -62,7 +64,7 @@ const deleteCarById = async (req, res) => {
     res.status(500).json({
       success: false,
       message: 'Something went wrong',
-      error: err.message,
+      error: error.message,
     })
   }
 }

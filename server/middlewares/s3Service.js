@@ -18,25 +18,31 @@ export const s3Uploadv2 = async (files) => {
   return await Promise.all(params.map((param) => s3.upload(param).promise()))
 }
 
-//we'll need this
-// filenameToRemove = removedTodo.imageURL.split('/').slice(-1)[0];
-
 export const s3Delete = async (images) => {
   const s3 = new AWS.S3()
-  let getKeys = images.map((image) => {
-    return {
-      Key: image.split('/').slice(3).join('/'),
+  if (
+    images &&
+    images[0].startsWith(
+      'https://renta-car-sif-2022.s3.eu-central-1.amazonaws.com/'
+    )
+  ) {
+    let getKeys = images.map((image) => {
+      return {
+        Key: image.split('/').slice(3).join('/'),
+      }
+    })
+    var params = {
+      Bucket: process.env.BUCKET_NAME,
+      Delete: {
+        Objects: getKeys,
+        Quiet: false,
+      },
     }
-  })
-  var params = {
-    Bucket: process.env.BUCKET_NAME,
-    Delete: {
-      Objects: getKeys,
-      Quiet: false,
-    },
+    s3.deleteObjects(params, function (err, data) {
+      if (err) console.log(err, err.stack)
+      else console.log(data)
+    })
+  } else {
+    console.log('nuk starton me https/bucketname')
   }
-  s3.deleteObjects(params, function (err, data) {
-    if (err) console.log(err, err.stack)
-    else console.log(data)
-  })
 }

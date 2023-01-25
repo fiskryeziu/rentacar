@@ -9,7 +9,7 @@ import { resetCarState } from '../features/car/carSlice'
 import { resetCarUpdate, updateCar } from '../features/car/carUpdateSlice'
 
 const EditCars = () => {
-  const [uploading, setUploading] = useState(false)
+  const [uploading, setUploading] = useState(true)
   const [formData, setFormData] = useState({
     name: '',
     brand: '',
@@ -76,27 +76,25 @@ const EditCars = () => {
       return
     }
     const files = e.target.files
-    console.log(files)
+
     const formdata = new FormData()
     for (let i = 0; i < files.length; i++) {
       formdata.append('images', files[i])
     }
-    setUploading(true)
     try {
+      setUploading(false)
       const config = {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
       }
-      const { data } = await API.post('api/upload', formdata, config)
-
-      console.log(data)
+      const { data } = await API.post('api/upload/update', formdata, config)
 
       setFormData((prev) => ({
         ...prev,
         images: data,
       }))
-      setUploading(false)
+      setUploading(true)
     } catch (error) {
       setUploading(false)
       console.log(error)
@@ -126,7 +124,6 @@ const EditCars = () => {
       })
     )
   }
-
   return (
     <form
       className="form-control w-[300px] mx-auto mb-20"
@@ -198,7 +195,13 @@ const EditCars = () => {
         multiple
       />
 
-      <button className="btn mt-6">Send</button>
+      <button
+        className={`btn mt-6 ${
+          uploading ? 'btn-success' : 'btn-disabled loading'
+        }`}
+      >
+        Send
+      </button>
     </form>
   )
 }

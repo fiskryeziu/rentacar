@@ -5,7 +5,7 @@ import Car from '../models/carModel.js'
 const getCars = async (req, res) => {
   const rangeValue = +req.query.rangeValue || 0
   const pageNumber = +req.query.pageNumber || 1
-  const carLimit = 2
+  const carLimit = 6
   try {
     const cars = await Car.find({})
       .limit(carLimit)

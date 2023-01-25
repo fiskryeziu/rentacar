@@ -27,6 +27,6 @@ router.route('/admin/:id').put(protect, admin, updateUsersById)
 
 router.route('/admin/user-details/:id').get(protect, admin, getUser)
 
-// router.route('/admin/delete/:id').delete(protect, admin, deleteUser)
+router.route('/admin/delete/:id').delete(protect, admin, deleteUser)
 
 export default router

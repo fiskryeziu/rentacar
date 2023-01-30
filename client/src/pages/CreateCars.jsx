@@ -58,7 +58,9 @@ const CreateCars = () => {
     setMessage('')
   }, [images])
 
-  const uploadFileHandler = async () => {
+  const uploadFileHandler = async (e) => {
+    e.preventDefault()
+    console.log('clicked')
     const MAX_LENGTH = 5
     if (Array.from(files).length > MAX_LENGTH) {
       alert(`Cannot upload files more than ${MAX_LENGTH}`)
@@ -207,7 +209,7 @@ const CreateCars = () => {
           <FaCheckCircle className="text-success text-3xl" />
         ) : (
           <button
-            onClick={() => uploadFileHandler()}
+            onClick={uploadFileHandler}
             className={`flex gap-2 items-center btn-sm  rounded-lg ${
               files.length === 0 || error ? 'btn-disabled' : 'btn-accent'
             }`}
